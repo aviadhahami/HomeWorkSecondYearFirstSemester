@@ -43,36 +43,24 @@
 ;PART 4 - LESS SIMPLE RECURSION -- FIBONACI
 
 ;Printing Function
-(define (printer unkn letter)
+(define (printer unkn )
   (begin
-    (display letter)
+    (display (+ unkn 0))
     (newline)
-    (display unkn)
-    
     ))
 
 (define (fibo n)
-  (;FIBO START
-   
-   cond (
-         (<= n 1)
-         (begin
-           n))
-        (else 
-         (begin
-           ;(printer (fibo (- n 1)))
-           ;(printer (fibo (- n 2)))
-           ;(+ (fibo (- n 1)) (fibo (- n 2)))
-           (define a  (fibo (- n 1)))
-           (define b (fibo (- n 2)))
-           (printer 'a a)
-           ;(printer 'b b)
-           (printer 'sum-is- (+ a b))
-           (+ a b)
-           )
-         ))
-  
-  );FIBO END
+  (begin 
+    (printer 1)
+    (fibo-side-kick 1 0 (- n 2))
+    (printer n)
+    )
+  )
 
-;(trace fibo)
-
+(define (fibo-side-kick a b counter)
+  (if (= counter 0)
+      b
+      (begin 
+        (printer (+ a b))
+        (fibo-side-kick (+ a b) a (- counter 1))
+        )))

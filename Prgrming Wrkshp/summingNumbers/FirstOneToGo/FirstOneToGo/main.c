@@ -1,11 +1,16 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
+#include <stdlib.h>
+
 int main(){
-	int inputA, inputB;
+	int inputA = 0;
+	int inputB =0;
 
 	printf("enter a number: ");
-	scanf("%d", inputA);
+	scanf("%d", &inputA);
 	printf("enter a number: ");
-	scanf("%d", inputB);
+	scanf("%d", &inputB);
 
 	printf("number is %d\n", sum(inputA, inputB));
 	
