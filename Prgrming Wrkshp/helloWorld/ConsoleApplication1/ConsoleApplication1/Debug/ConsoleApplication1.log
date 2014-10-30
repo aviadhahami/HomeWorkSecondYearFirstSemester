@@ -1,0 +1,11 @@
+﻿Build started 10/27/2014 7:03:17 PM.
+     1>Project "C:\Users\aviadh\IDC\Prgrming Wrkshp\helloWorld\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\ConsoleApplication1.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ConsoleApplication1.cpp
+         ConsoleApplication1.cpp
+     1>c:\users\aviadh\idc\prgrming wrkshp\helloworld\consoleapplication1\consoleapplication1\consoleapplication1.cpp(7): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>Done Building Project "C:\Users\aviadh\IDC\Prgrming Wrkshp\helloWorld\ConsoleApplication1\ConsoleApplication1\ConsoleApplication1.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.09
