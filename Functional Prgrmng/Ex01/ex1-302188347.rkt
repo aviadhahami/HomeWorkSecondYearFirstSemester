@@ -57,10 +57,17 @@
 ;main func matching interface demands
 (define (fibo n)
   (begin 
-    (printer 1)
-    (fibo-side-kick 1 0 (- n 2))
-    (printer n)
+    (cond ((= n 1)
+           (printer 1))
+          ((= n 0)
+           (printer 1))
+          (else
+           (begin
+             (printer 1)
+             (fibo-side-kick 1 0 (- n 1)) )))
+    
     )
+  (newline)
   )
 ;Fibo-side-kick is ment to be the actual recursion
 (define (fibo-side-kick a b counter)
