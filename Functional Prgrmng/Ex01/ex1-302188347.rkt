@@ -59,8 +59,11 @@
   (begin 
     (cond ((= n 1)
            (printer 1))
+          ;Edge case for n = 0,
+          ;accroding to Fibonacci's sequence,
+          ;first elemet (a0) is zero 
           ((= n 0)
-           (printer 1))
+           (printer 0))
           (else
            (begin
              (printer 1)
