@@ -1,0 +1,27 @@
+(define (split lst)
+  (define (helper lst l1 l2)
+    (if (null? lst)
+        (list l1 l2)
+        (helper (cdr lst) l2 (cons (car lst) l1)))
+    )
+  (helper lst () ())
+  )
+
+(define (merge l1 l2)
+  (cond ((null? l1) l2)
+        ((null? l2) l1)
+        ((< (car l1) (car l2))
+         (cons (car l1) (merge (cdr l1) l2))
+         )
+        (else (cons (car l2) (merge l1  (cdr l2))))
+        )
+  )
+
+(define (merge-sort lst)
+  (
+   if (null? (cdr lst))
+      lst
+      (let* ((lists (split lst))
+             (l1-sorted (merge-sort (first lists)))
+             (l2-sorted (merge-sort (second lists))))
+        (merge l1-sorted l2-sorted))))
