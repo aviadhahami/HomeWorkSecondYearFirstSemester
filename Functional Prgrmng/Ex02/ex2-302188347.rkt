@@ -2,7 +2,7 @@
 (require racket/trace)
 
 (define (carsFirstItemPrinter ml)
-  (list (list-ref ml 0))
+  (list-ref ml 0)
   )
 
 (define (carsListHandler ml)
@@ -11,11 +11,13 @@
   ;if the next item next item isnt a list drop it
   
   (if (not (null? (cdr ml)))
-      (begin
-        (carsFirstItemPrinter (car ml))
-        (carsListHandler (cdr ml)))
-      '()
-      ));there exists another list
+      (cons
+       (carsFirstItemPrinter (car ml))
+       (carsListHandler (cdr ml))
+       )
+      (cons (carsFirstItemPrinter (car ml)) '())
+      )
+  )
 
 
 
@@ -24,7 +26,7 @@
     ;if no lists are in
     ((null? lists)
      '())
-    (else (list (carsListHandler lists)))
-    )
+    (else  (carsListHandler lists)))
   )
+
 (trace carsListHandler)
