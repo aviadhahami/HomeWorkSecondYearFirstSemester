@@ -1,5 +1,10 @@
 ;ID: 302188347
+
+
 (require racket/trace)
+
+
+
 ;carsFirstItemPrinter purpose is just to be pretty
 (define (carsFirstItemPrinter ml)
   (list-ref ml 0)
@@ -27,4 +32,29 @@
     ((null? lists)
      '())
     (else  (carsListHandler lists)))
+  )
+
+
+
+
+
+;The function (cdrs lists) receives a list of lists named lists
+(define (cdrs lists)
+  (cond 
+    ;if no lists are in
+    ((null? lists)
+     '())
+    (else  (cdrsListHandler lists)))
+  )
+
+(define (cdrsListHandler ml)
+  (if (not (null? (cdr ml)))
+      ;Case its CDR is not null (more lists exist up ahead)
+      (cons
+       (cdr (car ml))
+       (cdrsListHandler (cdr ml))
+       )
+      ;Case its CDR is null -> we cons the last item with null pointer '()
+      (cons (cdr (car ml)) '())
+      )
   )
