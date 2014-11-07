@@ -58,3 +58,23 @@
       (cons (cdr (car ml)) '())
       )
   )
+
+(define (quick-sort lst)
+  
+  ;;pivot : list -> number
+  ;;Pivot will return the leftmost item in the list.
+  ;;#NaiveFunctions
+  ( define (pivot lst)
+     (list-ref lst 0)
+     )
+  
+  ;;split : list->list
+  ;;split will return 2 lists whereas the right list is numbers
+  ;;bigger than the pivot, and the left list is numbers
+  ;;smaller than the pivot
+  (define (split lst pivot)
+    ((+ 1))
+    )
+  
+  (+ 0);DUMMY RETURN
+  )
