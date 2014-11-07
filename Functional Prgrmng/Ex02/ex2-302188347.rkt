@@ -59,22 +59,26 @@
       )
   )
 
+
+(define (pivot lst)
+                (cond ((null? lst) 'done)
+                      ((null? (cdr lst)) 'done)
+                      ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
+                      (#t (car lst))))
+
+; usage: (partition 4 '(6 4 2 1 7) () ()) -> returns partitions
+(define (partition pivot l p1 p2)
+                    (if (null? l) (list p1 p2)
+                        (if (< (car l) pivot) (partition pivot (cdr l) (cons (car l) p1) p2)
+                            (partition pivot (cdr l) p1 (cons (car l) p2)))))
+
 (define (quick-sort lst)
+  (let ((pivot (pivot lst)))
+    (if (equal? pivot 'done) lst
+        (let ((parts (partition pivot lst () ())))
+          (append (quick-sort (car parts)) 
+                  (quick-sort (cadr parts))))))
   
-  ;;pivot : list -> number
-  ;;Pivot will return the leftmost item in the list.
-  ;;#NaiveFunctions
-  ( define (pivot lst)
-     (list-ref lst 0)
-     )
   
-  ;;split : list->list
-  ;;split will return 2 lists whereas the right list is numbers
-  ;;bigger than the pivot, and the left list is numbers
-  ;;smaller than the pivot
-  (define (split lst pivot)
-    ((+ 1))
-    )
-  
-  (+ 0);DUMMY RETURN
   )
+(trace partition)
