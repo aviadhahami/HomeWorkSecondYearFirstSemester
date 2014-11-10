@@ -61,16 +61,16 @@
 
 
 (define (pivot lst)
-                (cond ((null? lst) 'done)
-                      ((null? (cdr lst)) 'done)
-                      ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
-                      (#t (car lst))))
+  (cond ((null? lst) 'done)
+        ((null? (cdr lst)) 'done)
+        ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
+        (#t (car lst))))
 
 ; usage: (partition 4 '(6 4 2 1 7) () ()) -> returns partitions
 (define (partition pivot l p1 p2)
-                    (if (null? l) (list p1 p2)
-                        (if (< (car l) pivot) (partition pivot (cdr l) (cons (car l) p1) p2)
-                            (partition pivot (cdr l) p1 (cons (car l) p2)))))
+  (if (null? l) (list p1 p2)
+      (if (< (car l) pivot) (partition pivot (cdr l) (cons (car l) p1) p2)
+          (partition pivot (cdr l) p1 (cons (car l) p2)))))
 
 (define (quick-sort lst)
   (let ((pivot (pivot lst)))
@@ -82,3 +82,22 @@
   
   )
 (trace partition)
+
+
+
+
+
+
+;;PART 3!
+
+(define (numOfBitsOn number)
+  (define (NOBTR num count)
+    (cond ((<= num 0) 0)
+          ((= (remainder num 2) 0)
+           (NOBTR (truncate (/ num 2)) count) )
+          (else 
+           (NOBTR (truncate (/ num 2)) (+ 1 count)) )
+          )
+    )
+  (display (NOBTR number 0))
+  )
