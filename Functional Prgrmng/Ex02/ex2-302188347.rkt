@@ -107,7 +107,7 @@
 
 (define findSqrt
   (λ (n delta)
-    (let* ([lcl_n n] [lcl_delta delta]) ;;Declaring scope-global vars
+    (let ([lcl_n n] [lcl_delta delta]) ;;Declaring scope-global vars
       (define FSAUX ;;Utility tail-recursive auxiliary fn
         (λ (guess min max)
           (cond ((< (abs (- (sqr guess) lcl_n)) lcl_delta)
