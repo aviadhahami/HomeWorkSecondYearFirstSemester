@@ -107,15 +107,12 @@
 
 (define findSqrt
   (λ (n delta)
-  (let ([max (/ n 2)] [min 0] [guess (/ n 4)])
-    (define findSqrtAUX 
-      (λ (n delta guess max min)
+    (define FSAUX
+      (λ (n delta guess min max)
         (cond ((< (abs (- (sqr guess) n)) delta)
                guess)
-              ((< (abs (- (sqr guess) n)) 0)
-               (findSqrtAUX n delta (/ (+ guess max) 2)  guess max guess))
-              (else
-               (findSqrtAUX )
-               )
-    
-    
+              ((< (- (sqr guess) n) 0)
+               (FSAUX n delta (/ (+ guess max) 2) guess max))
+              (else 
+               (FSAUX n delta (/ (+ guess min) 2) min guess)))))
+    (FSAUX n delta (/ n 4) 0 (/ n 2))))
