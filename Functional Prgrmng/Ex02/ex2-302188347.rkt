@@ -60,6 +60,10 @@
   )
 
 
+
+
+
+
 (define (pivot lst)
   (cond ((null? lst) 'done)
         ((null? (cdr lst)) 'done)
@@ -99,3 +103,19 @@
     )
   (NOBTR number 0)
   )
+
+
+(define findSqrt
+  (λ (n delta)
+  (let ([max (/ n 2)] [min 0] [guess (/ n 4)])
+    (define findSqrtAUX 
+      (λ (n delta guess max min)
+        (cond ((< (abs (- (sqr guess) n)) delta)
+               guess)
+              ((< (abs (- (sqr guess) n)) 0)
+               (findSqrtAUX n delta (/ (+ guess max) 2)  guess max guess))
+              (else
+               (findSqrtAUX )
+               )
+    
+    
