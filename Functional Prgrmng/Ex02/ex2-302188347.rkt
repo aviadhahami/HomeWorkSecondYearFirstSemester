@@ -34,10 +34,6 @@
     (else  (carsListHandler lists)))
   )
 
-
-
-
-
 ;The function (cdrs lists) receives a list of lists named lists
 (define (cdrs lists)
   (cond 
@@ -117,3 +113,17 @@
                 (else 
                  (FSAUX (/ (+ guess min) 2) min guess)))))
       (FSAUX (/ n 4) 0 (/ n 2)))))
+
+
+(define cars-tail
+  (λ (lst)
+    (define CTA ;;
+      (λ (lst n_lst)
+        (if (null? lst)
+            n_lst
+            (CTA (cdr lst) (append n_lst (car lst))))))
+    (CTA lst '())
+    
+    )
+  )
+
