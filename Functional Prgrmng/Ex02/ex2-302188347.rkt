@@ -107,12 +107,13 @@
 
 (define findSqrt
   (λ (n delta)
-    (define FSAUX
-      (λ (n delta guess min max)
-        (cond ((< (abs (- (sqr guess) n)) delta)
-               guess)
-              ((< (- (sqr guess) n) 0)
-               (FSAUX n delta (/ (+ guess max) 2) guess max))
-              (else 
-               (FSAUX n delta (/ (+ guess min) 2) min guess)))))
-    (FSAUX n delta (/ n 4) 0 (/ n 2))))
+    (let* ([lcl_n n] [lcl_delta delta]) ;;Declaring scope-global vars
+      (define FSAUX ;;Utility tail-recursive auxiliary fn
+        (λ (guess min max)
+          (cond ((< (abs (- (sqr guess) lcl_n)) lcl_delta)
+                 guess)
+                ((< (- (sqr guess) lcl_n) 0)
+                 (FSAUX (/ (+ guess max) 2) guess max))
+                (else 
+                 (FSAUX (/ (+ guess min) 2) min guess)))))
+      (FSAUX (/ n 4) 0 (/ n 2)))))
