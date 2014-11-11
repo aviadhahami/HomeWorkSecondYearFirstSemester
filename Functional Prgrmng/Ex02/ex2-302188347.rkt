@@ -92,12 +92,10 @@
 
 (define (numOfBitsOn number)
   (define (NOBTR num count)
-    (cond ((<= num 0) 0)
-          ((= (remainder num 2) 0)
-           (NOBTR (truncate (/ num 2)) count) )
-          (else 
-           (NOBTR (truncate (/ num 2)) (+ 1 count)) )
-          )
+    (if (= num 0)
+        count
+        (NOBTR (quotient num 2) (+ count (modulo num 2)))
+        )
     )
-  (display (NOBTR number 0))
+  (NOBTR number 0)
   )
