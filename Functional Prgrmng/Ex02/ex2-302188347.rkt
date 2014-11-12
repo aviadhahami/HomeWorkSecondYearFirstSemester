@@ -57,31 +57,59 @@
 
 
 
+;;PART 2 - SORTING
 
 
 
-(define (pivot lst)
-  (cond ((null? lst) 'done)
-        ((null? (cdr lst)) 'done)
-        ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
-        (#t (car lst))))
+(define quick-sort
+  (λ (lst)
+    
+    (define pivot
+      (λ (lst)
+        (cond ((null? lst) 'done)
+              ((null? (cdr lst)) 'done)
+              (else
+               (car lst)))))
+    
+    (define split
+      (λ (lst pivot)
+        (clusterMaker pivot lst () ())))
+    
+    (define (clusterMaker pivot lst p1 p2)
+      (if (null? lst) (list p1 p2)
+          (if (< (car lst) pivot) (clusterMaker pivot (cdr lst) (cons (car lst) p1) p2)
+              (clusterMaker pivot (cdr lst) p1 (cons (car lst) p2)))))
+    
+    
+    (let  ((pivot (pivot lst)))
+      (if (equal? pivot 'done) lst
+          (let ((splitted (split lst pivot)))
+            (append (quick-sort (car splitted)) (quick-sort (cadr splitted))))))))
+
+
+
+;(define (pivot lst)
+;  (cond ((null? lst) 'done)
+;        ((null? (cdr lst)) 'done)
+;        ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
+;        (#t (car lst))))
 
 ; usage: (partition 4 '(6 4 2 1 7) () ()) -> returns partitions
-(define (partition pivot l p1 p2)
-  (if (null? l) (list p1 p2)
-      (if (< (car l) pivot) (partition pivot (cdr l) (cons (car l) p1) p2)
-          (partition pivot (cdr l) p1 (cons (car l) p2)))))
+;(define (partition pivot l p1 p2)
+;  (if (null? l) (list p1 p2)
+;     (if (< (car l) pivot) (partition pivot (cdr l) (cons (car l) p1) p2)
+;       (partition pivot (cdr l) p1 (cons (car l) p2)))))
 
-(define (quick-sort lst)
-  (let ((pivot (pivot lst)))
-    (if (equal? pivot 'done) lst
-        (let ((parts (partition pivot lst () ())))
-          (append (quick-sort (car parts)) 
-                  (quick-sort (cadr parts))))))
-  
-  
-  )
-(trace partition)
+;(define (quick-sort lst)
+;(let ((pivot (pivot lst)))
+;    (if (equal? pivot 'done) lst
+;        (let ((parts (partition pivot lst () ())))
+;          (append (quick-sort (car parts)) 
+;                  (quick-sort (cadr parts))))))
+
+
+; )
+;(trace partition)
 
 
 
