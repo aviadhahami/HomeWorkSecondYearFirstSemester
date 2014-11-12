@@ -121,7 +121,7 @@
       (λ (lst n_lst)
         (if (null? lst)
             n_lst
-            (CTA (cdr lst) (append n_lst (car lst))))))
+            (CTA (cdr lst) (append n_lst (list (caar lst)))))))
     (CTA lst '())
     
     )
