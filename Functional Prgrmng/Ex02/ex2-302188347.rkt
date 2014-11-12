@@ -61,6 +61,32 @@
 
 
 
+(define quick-sort-with-pivot
+  (λ (lst)
+    
+    (define (pivot lst)
+      (cond ((null? lst) 'done)
+            ((null? (cdr lst)) 'done)
+            ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
+            (#t (car lst))))
+    
+    (define split
+      (λ (lst pivot)
+        (clusterMaker pivot lst () ())))
+    
+    (define (clusterMaker pivot lst p1 p2)
+      (if (null? lst) (list p1 p2)
+          (if (< (car lst) pivot) (clusterMaker pivot (cdr lst) (cons (car lst) p1) p2)
+              (clusterMaker pivot (cdr lst) p1 (cons (car lst) p2)))))
+    
+    
+    (let  ((pivot (pivot lst)))
+      (if (equal? pivot 'done) lst
+          (let ((splitted (split lst pivot)))
+            (append (quick-sort (car splitted)) (quick-sort (cadr splitted))))))))
+
+
+
 (define quick-sort
   (λ (lst)
     
