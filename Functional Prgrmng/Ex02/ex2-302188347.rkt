@@ -117,7 +117,7 @@
 
 (define cars-tail
   (λ (lst)
-    (define CTA ;;
+    (define CTA ;;Haha! CTA...#not
       (λ (lst n_lst)
         (if (null? lst)
             n_lst
@@ -127,3 +127,12 @@
     )
   )
 
+(define cdrs-tail
+  (λ (lst)
+    (define CTA ;;cdrs-tail-auxillary
+      (λ (lst n_lst)
+        (if (null? lst)
+            n_lst
+            (CTA (cdr lst) (append n_lst (list (cdr(car lst))))))))
+    (CTA lst '())
+    ))
