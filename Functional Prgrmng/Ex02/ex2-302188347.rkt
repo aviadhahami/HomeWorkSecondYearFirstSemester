@@ -1,10 +1,6 @@
 ;ID: 302188347
 
 
-(require racket/trace)
-
-
-
 ;carsFirstItemPrinter purpose is just to be pretty
 (define (carsFirstItemPrinter ml)
   (list-ref ml 0)
@@ -64,11 +60,12 @@
 (define quick-sort-with-pivot
   (λ (lst)
     
-    (define (pivot lst)
-      (cond ((null? lst) 'done)
-            ((null? (cdr lst)) 'done)
-            ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
-            (#t (car lst))))
+    (define pivot
+      (λ (lst)
+        (cond ((null? lst) 'g)
+              ((null? (cdr lst)) 'g)
+              ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
+              (#t (car lst)))))
     
     (define split
       (λ (lst pivot)
@@ -81,7 +78,7 @@
     
     
     (let  ((pivot (pivot lst)))
-      (if (equal? pivot 'done) lst
+      (if (equal? pivot 'g) lst
           (let ((splitted (split lst pivot)))
             (append (quick-sort (car splitted)) (quick-sort (cadr splitted))))))))
 
@@ -92,8 +89,8 @@
     
     (define pivot
       (λ (lst)
-        (cond ((null? lst) 'done)
-              ((null? (cdr lst)) 'done)
+        (cond ((null? lst) 'g)
+              ((null? (cdr lst)) 'g)
               (else
                (car lst)))))
     
@@ -108,39 +105,9 @@
     
     
     (let  ((pivot (pivot lst)))
-      (if (equal? pivot 'done) lst
+      (if (equal? pivot 'g) lst
           (let ((splitted (split lst pivot)))
             (append (quick-sort (car splitted)) (quick-sort (cadr splitted))))))))
-
-
-
-;(define (pivot lst)
-;  (cond ((null? lst) 'done)
-;        ((null? (cdr lst)) 'done)
-;        ((<= (car lst) (cadr lst)) (pivot (cdr lst)))
-;        (#t (car lst))))
-
-; usage: (partition 4 '(6 4 2 1 7) () ()) -> returns partitions
-;(define (partition pivot l p1 p2)
-;  (if (null? l) (list p1 p2)
-;     (if (< (car l) pivot) (partition pivot (cdr l) (cons (car l) p1) p2)
-;       (partition pivot (cdr l) p1 (cons (car l) p2)))))
-
-;(define (quick-sort lst)
-;(let ((pivot (pivot lst)))
-;    (if (equal? pivot 'done) lst
-;        (let ((parts (partition pivot lst () ())))
-;          (append (quick-sort (car parts)) 
-;                  (quick-sort (cadr parts))))))
-
-
-; )
-;(trace partition)
-
-
-
-
-
 
 ;;PART 3!
 
