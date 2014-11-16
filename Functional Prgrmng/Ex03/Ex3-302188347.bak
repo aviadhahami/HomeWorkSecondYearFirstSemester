@@ -1,0 +1,13 @@
+(require racket/trace)
+
+
+(define do2add2 
+  (λ (lst)
+    (define adder
+      (λ (oLst nLst)
+        (if (empty? oLst) 
+            nLst
+            (adder (cddr oLst) (append nLst  (cons (+ (car oLst) (cadr oLst)) '()))))))
+    (adder  lst '())))
+
+
