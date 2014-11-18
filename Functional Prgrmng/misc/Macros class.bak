@@ -1,0 +1,9 @@
+(define sayHello
+  (λ (name)
+    `(Hello ,name name)))
+
+
+(defmacro limitToOne (x)
+  `(if (> ,x 1) 
+       1
+       ,x))
