@@ -12,7 +12,8 @@
         (if (< (car lst) pivot) (clusterMaker pivot (cdr lst) (cons (car lst) p1) p2)
             (clusterMaker pivot (cdr lst) p1 (cons (car lst) p2))))))
 
-;;Part 2 – Factories (46 points)
+;~~~~~~~~~~~ PART 2 ~~~~~~~~~~~~~~~~;
+
 (define do2add 
   (λ (lst)
     (define adder
@@ -48,3 +49,19 @@
 
 (define do2eq1st
   (makeDo2F (λ (fl sl) (eq? (car fl) (car sl)))))
+
+
+;~~~~~~~~~~~ PART 3 ~~~~~~~~~~~~~~~~;
+
+(define makeDo2FM
+  (λ (F)
+    (λ (a b . c) (Do2FM F a b c))))
+
+(define Do2FM
+  (λ (F a b c)
+    (define fn
+      (λ (F oLst nLst)
+        (if (empty? oLst) 
+            nLst
+            (fn F (cddr oLst) (append nLst  (cons (F (car oLst) (cadr oLst)) '()))))))
+    (fn F c (list (F a b)))))
