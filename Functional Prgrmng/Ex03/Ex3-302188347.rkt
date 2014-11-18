@@ -35,5 +35,16 @@
 
 (define makeDo2F
   (λ (F)
-    
+    (λ (n_lst) (do2F F n_lst))))
 
+(define do2addFactory 
+  (makeDo2F +))
+
+(define do2mult
+  (makeDo2F *))
+
+(define do2eq?
+  (makeDo2F eq?))
+
+(define do2eq1st
+  (makeDo2F (λ (fl sl) (eq? (car fl) (car sl)))))
