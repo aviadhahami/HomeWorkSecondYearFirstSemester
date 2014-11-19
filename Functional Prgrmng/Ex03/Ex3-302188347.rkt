@@ -1,16 +1,27 @@
-(require racket/trace)
 ;;ID 302188347
 
 
-(define pivot
-  (λ (lst)
-    (car lst)))
+(define quick-sort
+  (λ (pred lst)
+    
+    (define pivot
+      (λ (lst)
+        (car lst)))
+    
+    (define splitter
+      (λ (lst)
+        (cdr lst)))
+    
+    (if (null? lst)
+        '()
+        (let ((pivot (pivot lst)) ;defining pivot as left element
+              (oLst (splitter lst))) ;defining oLst as the cdr of the original list
+          ;Splitting into two recursions - left with items fitting the pred, right with items
+          ;that fit the "not" pred.
+          (append (quick-sort pred (filter (lambda (listElement) (pred listElement pivot)) oLst))
+                  (list pivot)
+                  (quick-sort pred (filter (lambda (listElement) (not (pred listElement pivot))) oLst)))))))
 
-(define clusterMaker 
-  (λ (pivot lst p1 p2)
-    (if (null? lst) (list p1 p2)
-        (if (< (car lst) pivot) (clusterMaker pivot (cdr lst) (cons (car lst) p1) p2)
-            (clusterMaker pivot (cdr lst) p1 (cons (car lst) p2))))))
 
 ;~~~~~~~~~~~ PART 2 ~~~~~~~~~~~~~~~~;
 
