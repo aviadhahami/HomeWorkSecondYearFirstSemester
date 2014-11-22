@@ -1,0 +1,20 @@
+1.1----
+cp /share/ex_data/ex3/phones.txt  ~/exercises/ex3/
+
+1.2----
+cat phones.txt | sed "s/\([[:alpha:]]\)\(.*\)/\1/" > lastnames-first.txt
+
+1.3----
+cat phones.txt | cut -d " " -f2 > lastnames-rest.txt
+
+1.4---
+paste -d "" lastnames-first.txt lastnames-rest.txt > lastnames.txt
+
+1.5----
+cut phones.txt -f2-3 -d " " | paste - lastnames.txt | sed "s/\([[:digit:]]*\)\t\([[:alpha:]]*\)/\t\2\t\1/" | sed "s/\( \){1}/\t/" > phones-format1.txt
+
+1.6----
+ cat phones-format1.txt | sed "s/\([0-9]\{3\}\)\([0-9]\)/95\2-\1\2/" > phones-format2.txt
+
+1.7 BONUS ---
+ cat phones.txt | sed "s/\([[:alpha:]]*\), \([[:alpha:]]*\) \([[:digit:]]*\)/\2\t\1\t\3/" | sed "s/\t\([[:alpha:]]\)\([[:alpha:]]*\)/\t\1\L\2/" | sed "s/\t\([[:digit:]]\{3\}\)\([[:digit:]]\)/\t95\2-\1\2/" > phones-format2b.txt

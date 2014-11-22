@@ -1,0 +1,4 @@
+(define lst '(1 2 3))
+
+(defmacro pow2mult (expr)
+  
