@@ -25,7 +25,7 @@
 (define make-ip-filter
   (λ (prefix)
     (λ (lst)
-      (map (λ (x) (if (test-ip x prefix) x 0)) lst))))
+      (map (λ (x) (if (test-ip x prefix) x )) lst))))
 
 
 ;TRACERS
