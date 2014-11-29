@@ -14,12 +14,6 @@
 ;Part 2 – Not-so-simple Macro (60 points)
 ;test-ip assumes correct input
 
-;;Let's make it useful...
-(define true?
-  (λ (exp)
-    (if exp
-        #t
-        #f)))
 
 (define test-ip 
   (λ (ip prefix)
@@ -29,19 +23,17 @@
             (test-ip (cdr ip) (cdr prefix)))
         #t)))
 
-
+;The mapping returns a list of outputs that includes nulls as well
+;since nulls are not pairs either, i filtered the main output by "pair?"
+;hence i recieved only the relevant vlaue.
+;GGWP
 (define make-ip-filter
- (λ (prefix)
-   (λ (lst)
-     (filter pair? (map (λ (x) (if (test-ip x prefix) x )) lst)))))
-      
-      ;(define make-ip-filter
-      ; (λ (prefix)
-      ;  (λ (lst)
-      ;   (map (λ (x) (cond ((equal? #t (test-ip x prefix)) x))) lst))))
-      
-      
-      
-      ;TRACERS
-      (trace make-ip-filter)
-      (trace test-ip)
+  (λ (prefix)
+    (λ (lst)
+      (filter pair? (map (λ (x) (if (test-ip x prefix) x )) lst)))))
+
+
+
+;TRACERS
+(trace make-ip-filter)
+(trace test-ip)
