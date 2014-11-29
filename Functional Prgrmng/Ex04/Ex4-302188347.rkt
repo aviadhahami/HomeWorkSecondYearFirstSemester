@@ -1,5 +1,5 @@
 ;302188347
-
+(require racket/trace)
 ;Part 1 – Simple Macro (20 points)
 (defmacro circle-area (r)
   `(* (* ,r ,r) pi))
@@ -12,16 +12,22 @@
          a)))
 
 ;Part 2 – Not-so-simple Macro (60 points)
-
+;test-ip assumes correct input
 (define test-ip 
   (λ (ip prefix)
-    (if (= (car ip) (car prefix))
-        (if (= (cadr ip) (cadr prefix))
-            (if (= (caddr ip) (caddr prefix))
-                #t
-                #f)
-            #f)
-        #f)
-    ))
+    (if (not(null? prefix))
+        (if (not( = (car ip) (car prefix)))
+            #f
+            (test-ip (cdr ip) (cdr prefix)))
+        #t)))
 
 
+(define make-ip-filter
+  (λ (prefix)
+    (λ (lst)
+      (map (λ (x) (if (test-ip x prefix) x 0)) lst))))
+
+
+;TRACERS
+(trace make-ip-filter)
+(trace test-ip)

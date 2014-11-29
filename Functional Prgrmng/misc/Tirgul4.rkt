@@ -24,4 +24,12 @@
 
 
 (defmacro my-nor (x . other)
-  
+  (define (iter lst)
+    (if (null? (cdr lst))
+        #t
+        `(if ,(car lst)
+            #f
+            ,(iter (cdr lst)))))
+  (iter (cons x other)))
+
+(my-nor (< 1 2)(< 2 1))
