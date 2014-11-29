@@ -13,6 +13,14 @@
 
 ;Part 2 – Not-so-simple Macro (60 points)
 ;test-ip assumes correct input
+
+;;Let's make it useful...
+(define true?
+  (λ (exp)
+    (if exp
+        #t
+        #f)))
+
 (define test-ip 
   (λ (ip prefix)
     (if (not(null? prefix))
@@ -23,11 +31,17 @@
 
 
 (define make-ip-filter
-  (λ (prefix)
-    (λ (lst)
-      (map (λ (x) (if (test-ip x prefix) x )) lst))))
-
-
-;TRACERS
-(trace make-ip-filter)
-(trace test-ip)
+ (λ (prefix)
+   (λ (lst)
+     (filter pair? (map (λ (x) (if (test-ip x prefix) x )) lst)))))
+      
+      ;(define make-ip-filter
+      ; (λ (prefix)
+      ;  (λ (lst)
+      ;   (map (λ (x) (cond ((equal? #t (test-ip x prefix)) x))) lst))))
+      
+      
+      
+      ;TRACERS
+      (trace make-ip-filter)
+      (trace test-ip)
