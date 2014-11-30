@@ -64,17 +64,10 @@
     (λ (args)
       (not args)))
   (define eval ;don't forget - eval is evil!
-    (λ (args falseCounter)
-      (if (null? args)
-          (if (> falseCounter 1)
-              #F
-              #T)
-          `(if ,(!(!(car args)))
-               ,(eval (cdr args) falseCounter)
-               ,(eval (cdr args) (+ 1 falseCounter))))))
-  (eval (cons this.x this.rest) 0))
-
-;TRACERS
-;(trace switch-ip)
-;(trace expandCases)
-;(trace expandCase)
+    (λ (args)
+      (cond 
+        ((null? args) #T)
+        ((!(car args)) #T)
+        (else
+         (eval (cdr args))))))
+  (eval (cons this.x this.rest)))
