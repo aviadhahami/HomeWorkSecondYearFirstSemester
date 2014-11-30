@@ -47,9 +47,21 @@
 
 ;Part 3 – Boolean Logic (20 points)
 
-
-
-;TRACERS
-;(trace switch-ip)
-;(trace expandCases)
-;(trace expandCase)
+(defmacro xor (this.x . this.rest)
+  ;we wanna make it more readable...
+  (define eval
+    (λ (args truthCounter)
+      (if (null? args)
+          (if (even? truthCounter)
+              #f
+              #t)
+          `(if ,(car args)
+               ,(eval (cdr args) (+ truthCounter 1))
+               ,(eval (cdr args) truthCounter)))))
+  (eval (cons this.x this.rest) 0))
+          
+          
+          ;TRACERS
+          ;(trace switch-ip)
+          ;(trace expandCases)
+          ;(trace expandCase)
