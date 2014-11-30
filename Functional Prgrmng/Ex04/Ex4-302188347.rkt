@@ -48,8 +48,7 @@
 ;Part 3 – Boolean Logic (20 points)
 
 (defmacro xor (this.x . this.rest)
-  ;we wanna make it more readable...
-  (define eval
+  (define eval ;don't forget - eval is evil!
     (λ (args truthCounter)
       (if (null? args)
           (if (even? truthCounter)
@@ -59,9 +58,23 @@
                ,(eval (cdr args) (+ truthCounter 1))
                ,(eval (cdr args) truthCounter)))))
   (eval (cons this.x this.rest) 0))
-          
-          
-          ;TRACERS
-          ;(trace switch-ip)
-          ;(trace expandCases)
-          ;(trace expandCase)
+
+(defmacro nand (this.x . this.rest)
+  (define !
+    (λ (args)
+      (not args)))
+  (define eval ;don't forget - eval is evil!
+    (λ (args falseCounter)
+      (if (null? args)
+          (if (> falseCounter 1)
+              #F
+              #T)
+          `(if ,(!(!(car args)))
+               ,(eval (cdr args) falseCounter)
+               ,(eval (cdr args) (+ 1 falseCounter))))))
+  (eval (cons this.x this.rest) 0))
+
+;TRACERS
+;(trace switch-ip)
+;(trace expandCases)
+;(trace expandCase)
