@@ -28,24 +28,20 @@
 ;GGWP
 (define make-ip-filter
   (λ (prefix)
-    (λ 
-        (lst)
+    (λ (lst)
       (filter pair? (map (λ (x) (if (test-ip x prefix) x )) lst)))))
 
 
 
-(defmacro my-cond (ip . cases)
-  (define (expandCase case)
-    `(if ,(test-ip (car case)) ,(cadr case)))
-  (define (expandCases cases)
-    (if (null? cases)
-        '(void)
-        (if (eq? (caar cases) default)
-            (cadar cases)
-            (let ((current (expandCase (car cases)))
-                  (next (expandCases (cdr cases))))
-              (append current (list next))))))
-  (expandCases (cons ip cases)))
+
+(defmacro switch-ip (ip . cases)
+  (define ipconfig
+    (λ (case)
+      (if (equal? (car case) 'DEFAULT)
+          `(else ,(cadr case))
+          `((test-ip this.ip ',(car case)) ,(cadr case)))))
+  `(let ((this.ip ,ip))
+     (cond ,@(map ipconfig cases))))
 
 
 
@@ -53,15 +49,7 @@
 
 
 
-
-(let ((my-ip '(194 90 181 27)))
-  (my-cond my-ip
-             ((129 117) 'bezeq-international)
-             ((194 90) 'netvision)
-             ((85 44 2) 'zahav-012)
-             ((37 142 198) 'hot-net)
-             (default (display “Unknown IP address”))))
-
-
 ;TRACERS
-(trace switch-ip)
+;(trace switch-ip)
+;(trace expandCases)
+;(trace expandCase)
