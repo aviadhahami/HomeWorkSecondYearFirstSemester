@@ -1,0 +1,5 @@
+(define cxr
+  (λ (path lst)
+    (cond ((null? path)
+           lst)
+          
