@@ -1,0 +1,32 @@
+#!bintcsh
+@ flag=0;#making sure we dont die
+set right =  left =  final = 
+foreach arg ($argv) #we go over all argv's
+   if ( .$arg == .-d ) then
+#echo found -d!
+      @ flag = 1
+   else if ( $flag == 1 ) then
+       set right = ($right $arg)
+   else
+       set left = ($left $arg)
+   endif
+end
+#done getting all the input
+
+#lets check for empty lists
+if ($%right == 0) then
+   echo $left  tr   n  sort -u  tr n   #we have nothing to check
+   echo 
+else if ($%left == 0) then
+   echo  #left list is an empty group
+else
+   foreach l ($left)
+      set flag = 0
+      foreach r ($right)
+         if ($l == $r) set flag = 1
+      end
+      if ($flag == 0) set final = ($final $l)
+   end
+   echo $final  tr   n  sort -u  tr n  
+   echo 
+endif
