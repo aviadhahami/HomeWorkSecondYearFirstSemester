@@ -1,0 +1,33 @@
+#!/bin/tcsh
+
+#Scotty doesn't know that Fiona and me...
+if ($#argv != 1) then
+   #bad input -> we sholdn't handle it (assuming only 1 input)
+   exit(0)
+endif
+
+#setting our env token, first run
+if ($?callStack == 0) then
+   setenv callStack ""
+   setenv finalOutput "$1:t"
+endif
+
+
+#call the header puller on the arg
+set fallback = `getheaders $argv[1]`
+if ( $? == 1 ) then #verifying exec of last cmd
+   echo "Error: $fallback"
+   exit (1)
+endif
+
+set toDo = `setdiff $fallback -d $callStack`
+setenv finalOutput "$finalOutput `setdiff $callStack -d $finalOutput`"
+setenv callStack "$callStack $toDo"  #applying to items to callStack
+   if ($#toDo == 0) then #stop here the recursion
+      echo $finalOutput
+   else
+      foreach task ($toDo)
+       set fp = $1:h/$task #gettin full path
+        echo `getheaders-R $fp`
+      end
+   endif
