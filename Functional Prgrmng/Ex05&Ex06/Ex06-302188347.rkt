@@ -13,20 +13,19 @@
 ;multidict getter as demanded
 (define multidict-get 
   (λ (key dict)
-    (let ((res (MDgtr-TR dict key ())))
+    (let ((res (MDgtr-TR dict key)))
       (if (empty? res)
           #f
           res))))
 
 ;mdgr is a tail recursive helper for the getter "multidict-get" 
 (define MDgtr-TR
-  (λ (dict key out)
+  (λ (dict key)
     (if (null? dict)
         out
-        (if (eq? (caar dict) key)
-            (MDgtr-TR (cdr dict) key (append out (cdar dict)))
-            (MDgtr-TR (cdr dict) key out)))))
-
+        (if (!(eq? (caar dict) key))
+            (MDgtr-TR (cdr dict) key)
+            (cdar dict)))))
 
 ;multidict-remove --> API meeting function
 (define multidict-remove
