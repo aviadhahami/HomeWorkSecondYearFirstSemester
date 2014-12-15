@@ -61,9 +61,26 @@
 (define MDp-TR
   (λ (dict _dict k v)
     (if (null? dict)
-        (if (null? _dict)
+        (if (null? _dict) ;if _dict is null and we list with is we get shit faced....and probably minus 5 pts.
             (append (list (list k v )))
             (append (list (list k v)) _dict))
         (if (! (eq? (caar dict) k))
             (MDp-TR (cdr dict) (cons (car dict) _dict) k v)
             (append (cdr dict) _dict (list (append (car dict) (cons v ()))))))))
+
+
+
+
+;~~~~~~~~~~~~~~~~~~~ END OF EX. #5 ~~~~~~~~~~~~~~~~~~~~~~~~~~;
+
+
+(defmacro stream-cons (value next-expr)
+  `(cons ,value (lambda () ,next-expr)))
+
+(define stream-car car)
+
+(define (stream-cdr stream)
+  (if (procedure? (cdr stream))
+      ((cdr stream))
+      (cdr stream)))
+
