@@ -15,3 +15,10 @@
       (λ (init)
         (stream-cons init (aux (+ 2 init)))))
     (aux 0)))
+
+(define generate-fibo
+  (λ ()
+    (define aux
+      (λ (a b)
+        (stream-cons a (aux b (+ a b)))))
+    (aux 1 1)))
