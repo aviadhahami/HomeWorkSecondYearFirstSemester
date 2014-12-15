@@ -19,6 +19,24 @@
 (define generate-fibo
   (λ ()
     (define aux
-      (λ (a b)
-        (stream-cons a (aux b (+ a b)))))
+      (λ (n m)
+        (stream-cons n (aux m (+ n m)))))
     (aux 1 1)))
+
+
+(define list-to-stream
+  (λ (lst)
+    (define aux
+      (λ (lst)
+        (stream-cons (car lst) (aux (cdr lst)))))
+    (aux lst)))
+
+(define list-to-infinite-stream
+  (λ (lst)
+    (define aux
+      (λ (ol cl)
+        (if (not (null? cl))
+            (stream-cons (car cl) (aux ol (cdr cl)))
+            (stream-cons (car ol) (aux ol (cdr ol))))))
+            
+    (aux lst lst)))
