@@ -1,0 +1,14 @@
+(defmacro stream-cons (value next-expr)
+  `(cons ,value (lambda () ,next-expr)))
+
+(define stream-car car)
+
+(define (stream-cdr stream)
+  (if (procedure? (cdr stream))
+      ((cdr stream))
+      (cdr stream)))
+
+
+(define generate-even-stream
+  (λ ()
+    (stream-cons 2 (generate-even-stream))))

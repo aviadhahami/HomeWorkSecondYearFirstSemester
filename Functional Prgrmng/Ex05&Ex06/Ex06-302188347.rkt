@@ -84,3 +84,7 @@
       ((cdr stream))
       (cdr stream)))
 
+
+(define generate-even-stream
+  (λ ()
+    (stream-cons 2 (generate-even-stream))))
