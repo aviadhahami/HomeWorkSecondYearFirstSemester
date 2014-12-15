@@ -1,0 +1,5 @@
+(require racket/trace)
+
+(define a
+  (λ ()
+      (+ 2 2)))
