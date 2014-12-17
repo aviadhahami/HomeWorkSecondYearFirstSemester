@@ -9,6 +9,12 @@
       (cdr stream)))
 
 
+(define (streamToList stream n)
+  (if (= n 0)
+      ()
+      (cons (stream-car stream)
+            (streamToList (stream-cdr stream) (- n 1)))))
+
 (define generate-even-stream
   (λ ()
     (define aux
@@ -38,5 +44,17 @@
         (if (not (null? cl))
             (stream-cons (car cl) (aux ol (cdr cl)))
             (stream-cons (car ol) (aux ol (cdr ol))))))
-            
+    
     (aux lst lst)))
+
+
+
+
+(define (stream-comp action baseStream . conditions)
+  (define (streamCompAux action baseStream currConds origConds)
+    (if (null? currConds)
+        (stream-cons (action (stream-car baseStream)) (streamCompAux action (stream-cdr baseStream) origConds origConds))
+        (if ((car currConds) (action (stream-car baseStream)))
+            (streamCompAux action baseStream (cdr currConds) origConds)
+            (streamCompAux action (stream-cdr baseStream) origConds origConds))))
+  (streamCompAux action baseStream conditions conditions))
