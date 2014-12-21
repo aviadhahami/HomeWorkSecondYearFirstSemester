@@ -1,0 +1,11 @@
+﻿Build started 12/20/2014 19:01:09.
+     1>Project "C:\Users\aviadh\IDC\HomeWorkSecondYearFirstSemester\Prgrming_Wrkshp\Ex05\Ex05Project\Ex05Project\Ex05Project.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\aviadh\IDC\HomeWorkSecondYearFirstSemester\Prgrming_Wrkshp\Ex05\Ex05Project\Debug\Ex05Project.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\aviadh\IDC\HomeWorkSecondYearFirstSemester\Prgrming_Wrkshp\Ex05\Ex05Project\Debug\Ex05Project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\aviadh\IDC\HomeWorkSecondYearFirstSemester\Prgrming_Wrkshp\Ex05\Ex05Project\Debug\Ex05Project.lib" /MACHINE:X86 Debug\newFloat.obj
+         Debug\test.obj
+         Ex05Project.vcxproj -> C:\Users\aviadh\IDC\HomeWorkSecondYearFirstSemester\Prgrming_Wrkshp\Ex05\Ex05Project\Debug\Ex05Project.exe
+     1>Done Building Project "C:\Users\aviadh\IDC\HomeWorkSecondYearFirstSemester\Prgrming_Wrkshp\Ex05\Ex05Project\Ex05Project\Ex05Project.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.16
