@@ -96,7 +96,9 @@
 ; ***************************************************************************************
 ; ********************************* Add your code here! *********************************
 ; ***************************************************************************************
-
+(define !
+  (λ (args)
+    (not args)))
 
 (define eval-args 
   (λ (args ctx)
@@ -104,8 +106,14 @@
         ()
         (cons (evaluate (first args) ctx) (eval-args (cdr args) ctx)))))
 
-
-
+(define bind 
+  (λ (params args)
+    (define pairsBender
+      (λ (p a f)
+        (cond ((and (empty? p) (empty? a))
+               #T))))
+               
+    (pairsBender params args ())))
 ; ***************************************************************************************
 ; *           The following lines should appear at the end, BELOW your code!            *
 ; *                            Do NOT change the code below                             *
