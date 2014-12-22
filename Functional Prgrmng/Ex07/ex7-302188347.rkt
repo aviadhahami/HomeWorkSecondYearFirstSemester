@@ -1,6 +1,5 @@
 
 
-
 ; My Id is 123456789
 ; optionally, add another student id if you submitted in pairs
 
@@ -105,15 +104,20 @@
     (if (null? args)
         ()
         (cons (evaluate (first args) ctx) (eval-args (cdr args) ctx)))))
+;~~~~~~~~~~~~~~~~~~~~~~
 
 (define bind 
   (λ (params args)
-    (define pairsBender
-      (λ (p a f)
-        (cond ((and (empty? p) (empty? a))
-               #T))))
-               
-    (pairsBender params args ())))
+    (cond ((null? params)
+           ())
+          ((symbol? params)
+           (list (list params args)))
+          (else 
+           (cons (list (car params) (car args)) (bind (cdr params) (cdr args)))))))
+
+;~~~~~~~~~~~~~~~~~
+
+
 ; ***************************************************************************************
 ; *           The following lines should appear at the end, BELOW your code!            *
 ; *                            Do NOT change the code below                             *
