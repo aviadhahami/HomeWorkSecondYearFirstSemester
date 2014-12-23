@@ -175,9 +175,13 @@
   (λ (func args-list ctx)
     (evaluate (list func (evaluate args-list ctx)) ctx))) 
 
-(defien exec-user-func 
+;@func stracture is "(<type> <params> <body> <context-of-creation>)"
+(define exec-user-func 
   (λ (func args ctx)
-    (
+    (let ((fType (driller func 1))(fPrms (driller func 2))(fBody (driller func 3))(fCtx (driller func 4)))
+      (if (eq? '_user_lambda fType);type is a regular lambda, eval-args is called
+          (bind fPrms (eval-args args ctx))
+          (bind fPrms args)
      
      ; ***************************************************************************************
      ; *           The following lines should appear at the end, BELOW your code!            *
