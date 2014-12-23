@@ -140,7 +140,26 @@
           (else
            (error “reference to undefined identifier”)))))
 
+
 ;~~~~~~~~~ Question #4 ~~~~~~~~~~
+
+
+(define eval-if 
+  (λ (condition if-true if-false ctx)
+    (if (evaluate condition ctx)
+        (evaluate if-true ctx)
+        (evaluate if-false ctx))))
+
+
+;~~~~~~~~~ Question #5 ~~~~~~~~~~
+
+
+(define exec-func 
+  (λ (func args ctx)
+    (if (eq? (car func) '_primitive)
+        (apply (cdr func) (eval-args args ctx))
+        (exec-user-func func args ctx))))
+
 
 ; ***************************************************************************************
 ; *           The following lines should appear at the end, BELOW your code!            *
