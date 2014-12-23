@@ -1,6 +1,6 @@
 
 
-; My Id is 123456789
+; My Id is 302188347
 ; optionally, add another student id if you submitted in pairs
 
 (require (lib "trace.rkt"))
@@ -95,7 +95,7 @@
 ; ***************************************************************************************
 ; ********************************* Add your code here! *********************************
 ; ***************************************************************************************
-;~~~~~~~~~LOCAL HEADERS~~~~~~~~~~
+;~~~~~~~~~CUSTOM DEFENITIONS~~~~~~~~~~
 (define !
   (λ (args)
     (not args)))
@@ -125,6 +125,7 @@
            (cons (list (car params) (car args)) (bind (cdr params) (cdr args)))))))
 
 ;~~~~~~~~~ Question #3 ~~~~~~~~~~
+
 (define eval-symbol
   (λ (sym ctx)
     (cond ((member? sym special-keywords)
@@ -160,7 +161,14 @@
         (apply (cdr func) (eval-args args ctx))
         (exec-user-func func args ctx))))
 
+(define exec-apply 
+  (λ (func args-list ctx)
+    (evaluate (list func (evaluate args-list ctx)) ctx))) 
 
+(defien exec-user-func 
+  (λ (func args ctx)
+    (
+  
 ; ***************************************************************************************
 ; *           The following lines should appear at the end, BELOW your code!            *
 ; *                            Do NOT change the code below                             *
