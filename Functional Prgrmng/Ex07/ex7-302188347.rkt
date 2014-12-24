@@ -235,6 +235,19 @@
                ;if the first elem is no symbol, we can exhale and try to smile;
                ;if not --> we better run inside Molten Core screaming "LEEEROOOYYYY JENKINSSSSSS"
                (exec-func (car exp) (cdr exp) ctx)
+               (let ((headSymb (car exp)))
+                 (cond ((eq? headSymb 'lambda)
+                        (list '_user_lambda (driller exp 2) (driller exp 3) ctx))
+                       ((eq? headSymb 'nlambda)
+                        (list '_user_nlambda (driller exp 2) (driller exp 3) ctx))
+                       ((eq? headSymb 'macro)
+                        (list '_user_macro (driller exp 2) (driller exp 3) ctx))
+                       ((eq? headSymb 'if)
+                        (eval-if headSymb (driller exp 2) (driller exp 3) ctx))
+                       ((eq? headSymb 'eval)
+                        (evaluate (evaluate exp ctx) ctx))
+                       ((eq? headSymb 'apply)
+                        (exec-apply (driller exp 2) (driller exp 3) ctx))))))))) ; NOT SURE !
                
                
                
