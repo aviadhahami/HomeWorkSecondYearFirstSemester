@@ -207,7 +207,7 @@
 
 (define exec-apply 
   (λ (func args-list ctx)
-    (evaluate (list func (evaluate args-list ctx)) ctx))) 
+    (evaluate `(,func ,@(evaluate args-list ctx)) ctx))) 
 
 ;@func stracture is "(<type> <params> <body> <context-of-creation>)"
 (define exec-user-func 
@@ -237,27 +237,28 @@
 (define evaluate 
   (λ (exp ctx)
     (cond ((symbol? exp) ;if symbol -> eval-symbol
-           (eval-symbol exp))
-          ((!(list? exp)) ;if not a list (and not a symbol) -> return it
+           (eval-symbol exp ctx))
+          ((!(pair? exp)) ;if not a list (and not a symbol) -> return it
            exp)
           (else ;Oh oh.....fun ends here.
-           (if (!(symbol? (car exp))) 
-               ;if the first elem is no symbol, we can exhale and try to smile;
-               ;if not --> we better run inside Molten Core screaming "LEEEROOOYYYY JENKINSSSSSS"
-               (exec-func (car exp) (cdr exp) ctx)
-               (let ((headSymb (car exp)))
-                 (cond ((eq? headSymb 'lambda)
-                        (list '_user_lambda (driller exp 2) (driller exp 3) ctx))
-                       ((eq? headSymb 'nlambda)
-                        (list '_user_nlambda (driller exp 2) (driller exp 3) ctx))
-                       ((eq? headSymb 'macro)
-                        (list '_user_macro (driller exp 2) (driller exp 3) ctx))
-                       ((eq? headSymb 'if)
-                        (eval-if headSymb (driller exp 2) (driller exp 3) ctx))
-                       ((eq? headSymb 'eval)
-                        (evaluate (evaluate exp ctx) ctx))
-                       ((eq? headSymb 'apply)
-                        (exec-apply (driller exp 2) (driller exp 3) ctx))))))))) ; NOT SURE !
+           (let ((funcPostEval (evaluate (car exp) ctx)) (currArgs (cdr exp)))
+             (cond ((!(symbol? funcPostEval))
+                    (exec-func funcPostEval currArgs ctx))
+                   ((eq? funcPostEval 'lambda)
+                    (list '_user_lambda (driller currArgs 1) (driller currArgs 2) ctx))
+                   ((eq? funcPostEval 'nlambda)
+                    (list '_user_nlambda (driller currArgs 1) (driller currArgs 2) ctx))
+                   ((eq? funcPostEval 'macro)
+                    (list '_user_macro (driller currArgs 1) (driller currArgs 2) ctx))
+                   ((eq? funcPostEval 'if)
+                    (eval-if (driller currArgs 1) (driller currArgs 2) (driller currArgs 3) ctx))
+                   ((eq? funcPostEval 'eval)
+                    (evaluate (evaluate (driller currArgs 1) ctx) ctx))
+                   ((eq? funcPostEval 'apply)
+                    (exec-apply (driller currArgs 1) (driller currArgs 2) ctx))
+                   (else 
+                    (error "Unkown identifier: " funcPostEval))))))))
+                   
 
 
 
