@@ -120,6 +120,9 @@
 ; ***************************************************************************************
 ; ********************************* Add your code here! *********************************
 ; ***************************************************************************************
+
+
+
 ;~~~~~~~~~CUSTOM DEFENITIONS~~~~~~~~~~
 (define !
   (λ (args)
@@ -169,18 +172,18 @@
 (define eval-symbol
   (λ (sym ctx)
     (cond ((member? sym special-keywords)
-           sym)
+           `(,sym))
           ((member? sym primitive-functions)
            (list '_primitive (eval sym)))
           (else
            (let ((nCtx (dict-get sym ctx)))
-             (if (!(! nCtx))
+             (if (! (eq? nCtx '_value_not_in_dict))
                  nCtx
                  (let ((nCtx (dict-get sym user-context)))
-                   (if (! (! nCtx))
+                   (if (! (eq? nCtx '_value_not_in_dict))
                        nCtx
                        (let ((nCtx (dict-get sym system-context)))
-                         (if (!(! nCtx))
+                         (if (! (eq? nCtx '_value_not_in_dict))
                              nCtx
                              (error "Unkown identifier: " sym)))))))))))
 
@@ -242,23 +245,21 @@
            exp)
           (else ;Oh oh.....fun ends here.
            (let ((funcPostEval (evaluate (car exp) ctx)) (currArgs (cdr exp)))
-             (cond ((!(symbol? funcPostEval))
-                    (exec-func funcPostEval currArgs ctx))
-                   ((eq? funcPostEval 'lambda)
-                    (list '_user_lambda (driller currArgs 1) (driller currArgs 2) ctx))
-                   ((eq? funcPostEval 'nlambda)
-                    (list '_user_nlambda (driller currArgs 1) (driller currArgs 2) ctx))
-                   ((eq? funcPostEval 'macro)
-                    (list '_user_macro (driller currArgs 1) (driller currArgs 2) ctx))
-                   ((eq? funcPostEval 'if)
-                    (eval-if (driller currArgs 1) (driller currArgs 2) (driller currArgs 3) ctx))
-                   ((eq? funcPostEval 'eval)
-                    (evaluate (evaluate (driller currArgs 1) ctx) ctx))
-                   ((eq? funcPostEval 'apply)
-                    (exec-apply (driller currArgs 1) (driller currArgs 2) ctx))
-                   (else 
-                    (error "Unkown identifier: " funcPostEval))))))))
-(trace evaluate)
+             (cond 
+               ((eq? (first funcPostEval) 'lambda)
+                (list '_user_lambda (driller currArgs 1) (driller currArgs 2) ctx))
+               ((eq? (first funcPostEval) 'nlambda)
+                (list '_user_nlambda (driller currArgs 1) (driller currArgs 2) ctx))
+               ((eq? (first funcPostEval) 'macro)
+                (list '_user_macro (driller currArgs 1) (driller currArgs 2) ctx))
+               ((eq? (first funcPostEval) 'if)
+                (eval-if (driller currArgs 1) (driller currArgs 2) (driller currArgs 3) ctx))
+               ((eq? (first funcPostEval) 'eval)
+                (evaluate (evaluate (driller currArgs 1) ctx) ctx))
+               ((eq? (first funcPostEval) 'apply)
+                (exec-apply (driller currArgs 1) (driller currArgs 2) ctx))
+               (else 
+                (exec-func funcPostEval currArgs ctx))))))))
 
 
 
@@ -294,23 +295,23 @@
        (error "Assertion failed: " (quote ,expr))))
 
 ; Basic tests
-;(assert (run-code 7) 7)
-; Primitive function execution and recursive evaluation
-;(assert (run-code '(+ 1 2)) 3)
-;(assert (run-code '(+ (- 2 1) 2)) 3)
-;(assert (run-code '(+ 1 (* 1 2))) 3)
-; Lambda execution test
-;(assert (run-code '((lambda (x y z) (+ x y z)) 1 2 3)) 6)
-; Bind test
-;(assert (run-code '((lambda (x . z) (cons x z)) 1 2 3)) '(1 2 3))
-;(assert (run-code '((lambda x x) 1 2 3)) '(1 2 3))
-; nLambda + eval test
+(assert (run-code 7) 7)
+ ;Primitive function execution and recursive evaluation
+(assert (run-code '(+ 1 2)) 3)
+(assert (run-code '(+ (- 2 1) 2)) 3)
+(assert (run-code '(+ 1 (* 1 2))) 3)
+;Lambda execution test
+(assert (run-code '((lambda (x y z) (+ x y z)) 1 2 3)) 6)
+ ;Bind test
+(assert (run-code '((lambda (x . z) (cons x z)) 1 2 3)) '(1 2 3))
+(assert (run-code '((lambda x x) 1 2 3)) '(1 2 3))
+;nLambda + eval test
 (assert (run-code '(let ((a 1)) ((nlambda (x) (+ (eval x) 1)) a))) 2)
 ; macro test
-;(assert (run-code '(let ((a 1)) ((macro (x) (list (quote +) x 1)) 1))) 2)
+(assert (run-code '(let ((a 1)) ((macro (x) (list (quote +) x 1)) 1))) 2)
 ; IF test
-;(assert (run-code '(let ((x 2)) (if (< x 3) 'small 'large))) 'small)
-;(assert (run-code '(let ((x 4)) (if (< x 3) 'small 'large))) 'large)
+(assert (run-code '(let ((x 2)) (if (< x 3) 'small 'large))) 'small)
+(assert (run-code '(let ((x 4)) (if (< x 3) 'small 'large))) 'large)
 ; Bonus test
 ;(if SWITCH_IP_ENABLED
 ;    (assert (run-code 
