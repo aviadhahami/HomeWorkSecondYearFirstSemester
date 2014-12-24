@@ -1,5 +1,30 @@
-
-
+;                                 /\
+;                                /  \
+;                       ,       '    \
+;   ,     .            / '.     |     ;      ,       ,           ;
+;  / ;   / \  /`.     |   |     |     /     / \     / \   /`.   / \
+; |  |  |  | |  |     `._/      `-._.'     |   |   ;   | |  |  |   ;
+; ',_/  \ _/ '._'       |         |        `._,'    \_,' |  '. \ _/
+;   \__  ;   __|       /\          \         |        \   '-'   '
+;  |   | |  |   |     /  \     --------.  --------.   |    |   _|.
+;  |   | '  |   |    /    \   |     _   `|     _   `|''"-. \  '   \
+;  |   |_'__|   |   /  .   \  |    | \   '    | \   '     `.'/    .'
+;  |            |  /  / \   \ |    |.'   /    |.'   /'-.    '   .'
+;  |    ----    | /   ---    \|        .'|        .'    `\     /
+;  |   |    |   |/   -----    \    .--'  |    .--'        |   |
+;  |   |    |   |`./       \  /    |     |    |           |   |
+;  |___|    |_mx|           .'|____|     |____|           |___|
+;                                          _
+;              .             _   __        | |  .\         __    __
+;  __    _    / \   _    .-'| | |  | _     | | /  `>  .   |  |  |  |
+; |  |  | |  /   \ | \   |  | | |  || |  /\| Y`  .'  / \  |  |__|  |
+; |  |  | | /  .  \|  `. |  | | |  || | /   >,  <   / . \ |   __   |
+; |   --  |/  /_\  |    `|  | | |  || Y`  .| |\  \ / /_\ \|  |  |  |
+; |   --  |        | |`.    | |_|  ;|    < | | \  / ____  |  |  |  |
+; |  |  | |\ /   \ | |  \   ;     .'| |\  \|_|  \/ /    \ |__|  |__|
+; |__|  |_| `     \' |   \  |`---'  | | \  |    /_/      \__\
+;                  |_|    \_|        -   \/ 
+;
 ; My Id is 302188347
 ; optionally, add another student id if you submitted in pairs
 
@@ -117,6 +142,11 @@
           (else
            (driller (cdr lst) (- depth 1))))))
 
+(define println
+  (λ (arg)
+    (display arg)
+    (display "\n")))
+
 ;~~~~~~~~~ Question #1 ~~~~~~~~~~
 (define eval-args 
   (λ (args ctx)
@@ -179,65 +209,75 @@
 (define exec-user-func 
   (λ (func args ctx)
     (let* ((fType (driller func 1))(fPrms (driller func 2))(fBody (driller func 3))(fCtx (driller func 4))
-                                  (postBind (if (eq? '_user_lambda fType) (bind fPrms (eval-args args ctx)) (bind fPrms args)))
-                                  (currCtx (if (eq? 'static fCtx) fCtx ctx)))
+                                   (postBind (if (eq? '_user_lambda fType) (bind fPrms (eval-args args ctx)) (bind fPrms args)))
+                                   (currCtx (if (eq? 'static fCtx) fCtx ctx)))
       (dict-put-many postBind currCtx)
-      (if (eq? '_user_macro fType)
-          
-            
-             
-     ; ***************************************************************************************
-     ; *           The following lines should appear at the end, BELOW your code!            *
-     ; *                            Do NOT change the code below                             *
-     ; ***************************************************************************************
-     
-     ; Initially create system context
-     (define system-context (make-context system-definitions))
-     
-     ; Initially create user context
-     (define user-context (make-context user-definitions))
-     
-     
-     
-     ; *****************************************************************************************
-     ; * Use the following code to test your code. Copy it to the end of your interpreter code *
-     ; * file and run. If you see no error, all tests succeeded.                               *
-     ; * NOTE: These tests are not enough to make sure that your code is 100% correct. This is *
-     ; * only an infarstructure for you to create your own tests.                              *
-     ; *****************************************************************************************
-     
-     ; *** DO NOT LEAVE TEST CODE IN YOUR SUBMITTED FILE!!! ***
-     
-     ; A macro that is used to test the behavior of the interpreter
-     (defmacro assert (expr result)
-       `(if (not (equal? ,expr ,result))
-            (error "Assertion failed: " (quote ,expr))))
-     
-     ; Basic tests
-     (assert (run-code 7) 7)
-     ; Primitive function execution and recursive evaluation
-     (assert (run-code '(+ 1 2)) 3)
-     (assert (run-code '(+ (- 2 1) 2)) 3)
-     (assert (run-code '(+ 1 (* 1 2))) 3)
-     ; Lambda execution test
-     (assert (run-code '((lambda (x y z) (+ x y z)) 1 2 3)) 6)
-     ; Bind test
-     (assert (run-code '((lambda (x . z) (cons x z)) 1 2 3)) '(1 2 3))
-     (assert (run-code '((lambda x x) 1 2 3)) '(1 2 3))
-     ; nLambda + eval test
-     (assert (run-code '(let ((a 1)) ((nlambda (x) (+ (eval x) 1)) a))) 2)
-     ; macro test
-     (assert (run-code '(let ((a 1)) ((macro (x) (list (quote +) x 1)) 1))) 2)
-     ; IF test
-     (assert (run-code '(let ((x 2)) (if (< x 3) 'small 'large))) 'small)
-     (assert (run-code '(let ((x 4)) (if (< x 3) 'small 'large))) 'large)
-     ; Bonus test
-     (if SWITCH_IP_ENABLED
-         (assert (run-code 
-                  '(let ((my-ip '(194 90 181 27)))
-                     (switch-ip my-ip
-                                ((129 117) 'bezeq-international)
-                                ((194 90) 'netvision)
-                                ((85 44 2) 'zahav-012)
-                                ((37 142 198) 'hot-net)
-                                (default (display "Unknown IP address"))))) 'netvision))
+      (if (!( eq? '_user_macro fType)) ;if not a macro - we're chilling
+          (evaluate fBody currCtx)
+          (let* ((evaldBod (evaluate fBody currCtx)) (evaldFull (evaluate evalBod ctx)))
+            (cond ((eq? PRINT_MACRO_EXPANSION #t)     
+                   (println "Macro xpansion from:")
+                   (println evaldBod)
+                   (println "To:")
+                   (println evaldFull)))
+            (display evaldFull))))))
+
+
+
+
+
+; ***************************************************************************************
+; *           The following lines should appear at the end, BELOW your code!            *
+; *                            Do NOT change the code below                             *
+; ***************************************************************************************
+
+; Initially create system context
+(define system-context (make-context system-definitions))
+
+; Initially create user context
+(define user-context (make-context user-definitions))
+
+
+
+; *****************************************************************************************
+; * Use the following code to test your code. Copy it to the end of your interpreter code *
+; * file and run. If you see no error, all tests succeeded.                               *
+; * NOTE: These tests are not enough to make sure that your code is 100% correct. This is *
+; * only an infarstructure for you to create your own tests.                              *
+; *****************************************************************************************
+
+; *** DO NOT LEAVE TEST CODE IN YOUR SUBMITTED FILE!!! ***
+
+; A macro that is used to test the behavior of the interpreter
+(defmacro assert (expr result)
+  `(if (not (equal? ,expr ,result))
+       (error "Assertion failed: " (quote ,expr))))
+
+; Basic tests
+(assert (run-code 7) 7)
+; Primitive function execution and recursive evaluation
+(assert (run-code '(+ 1 2)) 3)
+(assert (run-code '(+ (- 2 1) 2)) 3)
+(assert (run-code '(+ 1 (* 1 2))) 3)
+; Lambda execution test
+(assert (run-code '((lambda (x y z) (+ x y z)) 1 2 3)) 6)
+; Bind test
+(assert (run-code '((lambda (x . z) (cons x z)) 1 2 3)) '(1 2 3))
+(assert (run-code '((lambda x x) 1 2 3)) '(1 2 3))
+; nLambda + eval test
+(assert (run-code '(let ((a 1)) ((nlambda (x) (+ (eval x) 1)) a))) 2)
+; macro test
+(assert (run-code '(let ((a 1)) ((macro (x) (list (quote +) x 1)) 1))) 2)
+; IF test
+(assert (run-code '(let ((x 2)) (if (< x 3) 'small 'large))) 'small)
+(assert (run-code '(let ((x 4)) (if (< x 3) 'small 'large))) 'large)
+; Bonus test
+(if SWITCH_IP_ENABLED
+    (assert (run-code 
+             '(let ((my-ip '(194 90 181 27)))
+                (switch-ip my-ip
+                           ((129 117) 'bezeq-international)
+                           ((194 90) 'netvision)
+                           ((85 44 2) 'zahav-012)
+                           ((37 142 198) 'hot-net)
+                           (default (display "Unknown IP address"))))) 'netvision))
