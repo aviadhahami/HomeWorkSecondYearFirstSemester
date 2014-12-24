@@ -183,7 +183,7 @@
                          (if (!(! nCtx))
                              nCtx
                              (error "Unkown identifier: " sym)))))))))))
-                 
+
 
 
 ;~~~~~~~~~ Question #4 ~~~~~~~~~~
@@ -202,7 +202,7 @@
 (define exec-func 
   (λ (func args ctx)
     (if (eq? (car func) '_primitive)
-        (apply (cdr func) (eval-args args ctx))
+        (apply (cadr func) (eval-args args ctx))
         (exec-user-func func args ctx))))
 
 (define exec-apply 
@@ -215,16 +215,22 @@
     (let* ((fType (driller func 1))(fPrms (driller func 2))(fBody (driller func 3))(fCtx (driller func 4))
                                    (postBind (if (eq? '_user_lambda fType) (bind fPrms (eval-args args ctx)) (bind fPrms args)))
                                    (currCtx (if (eq? 'static fCtx) fCtx ctx)))
-      (dict-put-many postBind currCtx)
-      (if (!( eq? '_user_macro fType)) ;if not a macro - we're chilling
-          (evaluate fBody currCtx)
-          (let* ((evaldBod (evaluate fBody currCtx)) (evaldFull (evaluate evalBod ctx)))
-            (cond ((eq? PRINT_MACRO_EXPANSION #t)     
-                   (println "Macro xpansion from:")
-                   (println evaldBod)
-                   (println "To:")
-                   (println evaldFull)))
-            (display evaldFull))))))
+      (cond ((eq? '_user_lambda fType)
+             (evaluate fBody (dict-put-many postBind currCtx)))
+            ((eq? '_user_nlambda fType)
+             (evaluate fBody (dict-put-many postBind currCtx)))
+            ((eq? '_user_macro fType)
+             (let ((xpandMacro (evaluate fBody (dict-put-many postBind currCtx))))
+               (if (! (! PRINT_MACRO_EXPANSION))
+                   (begin
+                     (println "Macro xpansion from: ")
+                     (println fBody)
+                     (println "To:")
+                     (println xpandMacro)))
+               (evaluate xpandMacro ctx)))
+            (else 
+             (error "OOPS! Unokwn user def type: " fType))))))
+
 
 ;~~~~~~~~~ Question #6 ~~~~~~~~~~
 
