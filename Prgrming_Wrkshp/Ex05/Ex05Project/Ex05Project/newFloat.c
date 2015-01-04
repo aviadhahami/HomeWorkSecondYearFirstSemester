@@ -1,7 +1,3 @@
-/******************************************************
-*        newFloat.c - code file for NewFloat          *
-******************************************************/
-
 #include "newFloat.h"
 #include <stdio.h>
 
@@ -14,6 +10,7 @@
 *           C O N S T A N T S              *
 *******************************************/
 
+//#define DEBUG 1;
 // offset in exponent of NewFloat ((2^(EXPBITS-1)-1) e.g., 127 = 2^7 - 1 for float with 8 exponent bits)
 #define EXPOFFSET ((1 << (EXPBITS - 1)) - 1)
 
@@ -29,10 +26,10 @@
 ****************************************/
 
 // masking mantissa - returns exponent bits
-#define MASKMAN(A) ((A)& (~0 << MANBITS))
+#define MASKMAN(A) ((A) & (~0 << MANBITS))
 
 // masking exponent - returns mantissa bits
-#define MASKEXP(A) ((A)& (~(~0 << MANBITS)))
+#define MASKEXP(A) ((A) & (~(~0 << MANBITS)))
 
 // gets exponent - shift exponent to right edge of 4-byte block
 #define GETEXP(A)  (MASKMAN(A) >> MANBITS)
@@ -58,7 +55,7 @@
 NewFloat doubleToNewFloat(double d) {
 
 	NewFloat nfloat_mantissa, nfloat_exponent;
-	unsigned long long int d_as_long_long;
+	unsigned long long int _doubleLongLong;
 	int nfloat_exp_offseted_int;
 
 #ifdef DEBUG
@@ -71,16 +68,16 @@ NewFloat doubleToNewFloat(double d) {
 
 	// this is a trick using referencing and de-refererncing by a pointer to convert d
 	// to an 8-byte unsigned long long so that we could manipulate its bits
-	d_as_long_long = *((unsigned long long*)&d);
+	_doubleLongLong = *((unsigned long long*)&d);
 
 	// mantissa of NewFloat looses MANBITS_DOUBLE - MANBITS least significant bits
-	nfloat_mantissa = MASKEXP(d_as_long_long >> (MANBITS_DOUBLE - MANBITS));
+	nfloat_mantissa = MASKEXP(_doubleLongLong >> (MANBITS_DOUBLE - MANBITS));
 	// exponent of NewFloat is exponent of double, but need to re-set offset
-	nfloat_exp_offseted_int = ((int)(d_as_long_long >> MANBITS_DOUBLE) - EXPOFFSET_DOUBLE + EXPOFFSET);
+	nfloat_exp_offseted_int = ((int)(_doubleLongLong >> MANBITS_DOUBLE) - EXPOFFSET_DOUBLE + EXPOFFSET);
 
 #ifdef DEBUG
 	printf("  nfloat mantissa: %lx\n", nfloat_mantissa);
-	printf("  double exponent: %d, %x\n", (int)(d_as_long_long >> MANBITS_DOUBLE), (unsigned int)(d_as_long_long >> MANBITS_DOUBLE));
+	printf("  double exponent: %d, %x\n", (int)(_doubleLongLong >> MANBITS_DOUBLE), (unsigned int)(_doubleLongLong >> MANBITS_DOUBLE));
 	printf("  nfloat exponent (offseted, as int): %d\n", nfloat_exp_offseted_int);
 #endif
 
@@ -117,34 +114,40 @@ NewFloat doubleToNewFloat(double d) {
 **********************************/
 double newFloatToDouble(NewFloat nfloat) {
 
-	unsigned long long int d_mantissa, d_exponent, d_as_long_long;
-	unsigned long long int infy = 0x7ff0000000000000;
-	if (nfloat == 0.0) return (double)0;
-	if (nfloat == INF) return *(double*)&infy;
 
-	// mantissa of NewFloat added the ammount of heading zeros
+	unsigned long long int infinity = 0x7ff0000000000000;
+	unsigned long long int _doubleMan, _doubleExp, _doubleLongLong;
 
-	d_mantissa = ((unsigned long long int)MASKEXP(nfloat) << (MANBITS_DOUBLE - MANBITS));
 
-	// exponent of NewFloat is exponent of Double, but need to re-set offset
-	d_exponent = ((unsigned long long int)GETEXP(nfloat) - EXPOFFSET + EXPOFFSET_DOUBLE) << MANBITS_DOUBLE;
+	if (nfloat == 0.0){
+		return (double)0;
+	}
+	else if (nfloat == INF){
+		return *(double*)& infinity;
+	}
 
-	d_as_long_long = d_exponent + d_mantissa;
+	//Addin the MAN of newFloat to the leading zeros
+	_doubleMan = ((unsigned long long int)MASKEXP(nfloat) << (MANBITS_DOUBLE - MANBITS));
+
+	//We reset the EXP OFFSET
+	_doubleExp = ((unsigned long long int)GETEXP(nfloat) - EXPOFFSET + EXPOFFSET_DOUBLE) << MANBITS_DOUBLE;
+	
+
+	_doubleLongLong = _doubleExp + _doubleMan;
 
 #ifdef DEBUG
-	printf("  double mantissa: %llx\n", d_mantissa);
-	printf("  double exponent: %x\n", (unsigned)d_exponent);
-	printf("  double all: %llx\n", d_as_long_long);
+	printf("  _doubleMan is: %llx\n", _doubleMan);
+	printf(" (unsigned)_doubleExp is: %x\n", (unsigned)_doubleExp);
+	printf("  _doubleLongLong is : %llx\n", _doubleLongLong);
 #endif
 
-	return *((double*)(&d_as_long_long));
+	return *((double*)(&_doubleLongLong));
 
 }
 /** end of newFloatToDouble() **/
 
 NewFloat newFloatSum(NewFloat x, NewFloat y) {
 	unsigned long long int man_x, man_y, exp_x, exp_y, bigger_exp, bigger_man, smaller_exp, smaller_man, sum_man, MAX_man, MAX_exp;
-
 
 	if ((newFloatToDouble(x) == 0.0)){
 		return y;
