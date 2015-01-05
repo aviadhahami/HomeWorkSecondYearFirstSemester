@@ -67,7 +67,7 @@
         nl
         (if (< (- c (caar ol)) 0)
             (knapsack2_by_weight (cdr ol) nl c);not valid solution->we take only without
-            (getBiggerList (knapsack2_by_weight (cdr ol) (cons (car ol) nl) (- c (caar ol))) (knapsack2_by_weight (cdr ol) nl c))))));valid solution -> we take the one with both elements between the 2 solutions
+            (getBiggerList (knapsack2_by_weight (cdr ol) (append nl (list (car ol))) (- c (caar ol))) (knapsack2_by_weight (cdr ol) nl c))))));valid solution -> we take the one with both elements between the 2 solutions
 
 (trace knapsack2_by_weight)
 ;(trace getBiggerList)
