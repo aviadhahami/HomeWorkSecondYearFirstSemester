@@ -68,14 +68,7 @@
         (if (< (- c (caar ol)) 0)
             (knapsack2_by_weight (cdr ol) nl c);not valid solution->we take only without
             (getBiggerList (knapsack2_by_weight (cdr ol) (append nl (list (car ol))) (- c (caar ol))) (knapsack2_by_weight (cdr ol) nl c))))));valid solution -> we take the one with both elements between the 2 solutions
-(trace knapsack2_by_weight)
-;(trace getBiggerList)
 
-(define getBiggerSum
-  (λ (a b)
-    (if (< a b)
-        b
-        a)))
 
 (define knapsack2_by_val
   (λ (ol nl c)
@@ -89,9 +82,12 @@
                    (valWithout (get-value solWithout))  
                    (weightWith (get-weight solWith))
                    (weightWithout (get-weight solWithout)))
-              
-              (cond ((and (<= valWith valWithout) (>= weightWithout weightWith))
-                     solWithout)
-                    (else solWith)))))))
+              (cond ((> valWith valWithout)
+                     solWith)
+                    ((= valWith valWithout)
+                     (if (> weightWith weightWithout)
+                         solWith
+                         solWithout))
+                    (else solWithout)))))))
 
 (trace knapsack2_by_val)
