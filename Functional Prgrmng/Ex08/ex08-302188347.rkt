@@ -25,12 +25,13 @@
 
 (define knapsack1
   (λ (items capacity)
-    (let ((sortedItems (sortByDivision items)))
+    (let ((sortedItems (customSorter items (λ (curr nxt) (> (/ (cadr curr) (car curr)) (/ (cadr nxt) (car nxt)))))))
       (sackFiller sortedItems '() capacity))))
-;sBD is just a pretty name and help us make things b-e-a-utiful!
-(define sortByDivision
-  (λ (l)
-    (sort l (λ (curr nxt) (> (/ (cadr curr) (car curr)) (/ (cadr nxt) (car nxt)))))))
+;CS is just a pretty name and help us make things b-e-a-utiful!
+;AAAAnd it also let us pick the comparison we want (<,>,= etc..)
+(define customSorter
+  (λ (l op)
+    (sort l op)))
 ;sackFiller gets the original list (OL) and the new list (NL) and the capacity (C)
 ;its fills the sack - matching the demands specified
 (define sackFiller
@@ -43,5 +44,34 @@
 
 
 ;Part 3 - Backtracking
+(define !
+  (λ (arg)
+    (not arg)))
+
+(define getBiggerList
+  (λ (lstA lstB)
+    (if (< (length lstA) (length lstB))
+        lstB
+        lstA)))
+
 (define knapsack2 
- (λ (items capacity optimization-type)
+  (λ (items capacity optimization-type)
+    (cond ((eq? optimization-type 'WEIGHT);opt. type is by weight
+           (knapsack2_by_weight items '() capacity))
+          (else ;opt. type is by value
+           (knapsack2_by_val items '() capacity)))))
+
+(define knapsack2_by_weight
+  (λ (ol nl c)
+    (if (or (null? ol) (<= c 0))
+        nl
+        (if (< (- c (caar ol)) 0)
+            (knapsack2_by_weight (cdr ol) nl c);not valid solution->we take only without
+            (getBiggerList (knapsack2_by_weight (cdr ol) (cons (car ol) nl) (- c (caar ol))) (knapsack2_by_weight (cdr ol) nl c))))));valid solution -> we take the one with both elements between the 2 solutions
+
+(trace knapsack2_by_weight)
+;(trace getBiggerList)
+
+(define knapsack2_by_val
+  (λ (ol nl c)
+    
