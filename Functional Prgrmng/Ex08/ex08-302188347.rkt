@@ -83,14 +83,14 @@
         nl
         (if (< (- c (caar ol)) 0)
             (knapsack2_by_val (cdr ol) nl c);not valid -->we go without
-            (let* ((solWith (knapsack2_by_val (cdr ol) (append (cons (car ol) ()) nl) (- c (caar ol))));valid -> comparison needed based on val & weight
+            (let* ((solWith (knapsack2_by_val (cdr ol) (append nl (cons (car ol) ())) (- c (caar ol))));valid -> comparison needed based on val & weight
                    (solWithout (knapsack2_by_val (cdr ol) nl c))
                    (valWith (get-value solWith))
                    (valWithout (get-value solWithout))  
                    (weightWith (get-weight solWith))
                    (weightWithout (get-weight solWithout)))
               
-              (cond ((and (< valWith valWithout) (< weightWithout weightWith))
+              (cond ((and (<= valWith valWithout) (>= weightWithout weightWith))
                      solWithout)
                     (else solWith)))))))
 
