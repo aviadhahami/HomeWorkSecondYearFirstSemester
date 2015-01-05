@@ -27,6 +27,12 @@
   (λ (items capacity)
     (let ((sortedItems (sortByDivision items)))
       (sackFiller sortedItems '() capacity))))
+;sBD is just a pretty name and help us make things b-e-a-utiful!
+(define sortByDivision
+  (λ (l)
+    (sort l (λ (curr nxt) (> (/ (cadr curr) (car curr)) (/ (cadr nxt) (car nxt)))))))
+;sackFiller gets the original list (OL) and the new list (NL) and the capacity (C)
+;its fills the sack - matching the demands specified
 (define sackFiller
   (λ (ol nl c)
     (if (or (null? ol) (<= c 0))
@@ -34,6 +40,8 @@
         (if (<= 0 (- c (caar ol)))
             (sackFiller (cdr ol) (cons (car ol) nl) (- c (caar ol)))
             (sackFiller (cdr ol) nl c)))))
-(define sortByDivision
-  (λ (l)
-    (sort l (λ (curr nxt) (> (/ (cadr curr) (car curr)) (/ (cadr nxt) (car nxt)))))))
+
+
+;Part 3 - Backtracking
+(define knapsack2 
+ (λ (items capacity optimization-type)
