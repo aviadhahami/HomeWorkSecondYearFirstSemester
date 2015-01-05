@@ -21,3 +21,19 @@
             (gva (cdr l) (+ s (cadar l))))))
     (gva items 0)))
 
+;Part 2 – Not optimal
+
+(define knapsack1
+  (λ (items capacity)
+    (let ((sortedItems (sortByDivision items)))
+      (sackFiller sortedItems '() capacity))))
+(define sackFiller
+  (λ (ol nl c)
+    (if (or (null? ol) (<= c 0))
+        nl
+        (if (<= 0 (- c (caar ol)))
+            (sackFiller (cdr ol) (cons (car ol) nl) (- c (caar ol)))
+            (sackFiller (cdr ol) nl c)))))
+(define sortByDivision
+  (λ (l)
+    (sort l (λ (curr nxt) (> (/ (cadr curr) (car curr)) (/ (cadr nxt) (car nxt)))))))
