@@ -82,12 +82,13 @@
                    (valWithout (get-value solWithout))  
                    (weightWith (get-weight solWith))
                    (weightWithout (get-weight solWithout)))
-              (cond ((> valWith valWithout)
-                     solWith)
-                    ((= valWith valWithout)
+              (cond ((= valWith valWithout)
                      (if (> weightWith weightWithout)
                          solWith
                          solWithout))
+                    ((> valWith valWithout)
+                     solWith)
+                    
                     (else solWithout)))))))
 
 (trace knapsack2_by_val)
