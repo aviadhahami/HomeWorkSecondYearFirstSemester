@@ -1,9 +1,11 @@
-(require racket/trace)
-(define a '((12 4) (2 2) (1 2) (1 1) (4 10)))
+;302188347
+
 ; given a list of items the function returns the aggregated weight of them all
+;runtime -> O(n)
 (define get-weight
   (λ (items)
     ;gwa (get-weight-auxiliary) is a tail recursive helper func
+    ;runtime -> O(n)
     (define gwa
       (λ (l s)
         (if (null? l)
@@ -11,9 +13,11 @@
             (gwa (cdr l) (+ s (caar l))))))
     (gwa items 0)))
 ;given a list of items the function returns the aggregated value of them all    
+;runtime -> O(n)
 (define get-value
   (λ (items)
     ;gwa (get-value-auxiliary) is a tail recursive helper func
+    ;runtime -> O(n)
     (define gva
       (λ (l s)
         (if (null? l)
@@ -22,13 +26,17 @@
     (gva items 0)))
 
 ;Part 2 – Not optimal
-
+;runtime -> O(nlogn) <- sort (native)
+;              +
+;              O(n)  <-sackFiller (custom)
+;========================================
+; TOTAL RUNTIME : O(nlogn)
 (define knapsack1
   (λ (items capacity)
     (let ((sortedItems (customSorter items (λ (curr nxt) (> (/ (cadr curr) (car curr)) (/ (cadr nxt) (car nxt)))))))
       (sackFiller sortedItems '() capacity))))
-;CS is just a pretty name and help us make things b-e-a-utiful!
-;AAAAnd it also let us pick the comparison we want (<,>,= etc..)
+;CS is just a pretty name and is helps us make things b-e-a-utiful!
+;AAAAnd it also let us pick the comparison procedure we want (<,>,= etc..)
 (define customSorter
   (λ (l op)
     (sort l op)))
@@ -69,7 +77,6 @@
             (knapsack2_by_weight (cdr ol) nl c);not valid solution->we take only without
             (getBiggerList (knapsack2_by_weight (cdr ol) (append nl (list (car ol))) (- c (caar ol))) (knapsack2_by_weight (cdr ol) nl c))))));valid solution -> we take the one with both elements between the 2 solutions
 
-
 (define knapsack2_by_val
   (λ (ol nl c)
     (if (or (null? ol) (<= c 0))
@@ -88,7 +95,4 @@
                          solWithout))
                     ((> valWith valWithout)
                      solWith)
-                    
                     (else solWithout)))))))
-
-(trace knapsack2_by_val)
