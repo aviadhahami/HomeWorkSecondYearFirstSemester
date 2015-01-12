@@ -19,6 +19,9 @@ arr: 	.word 1
 main:
 	#	vars setup
 	#==================================
+	#s0 will be size,
+	#s1 will be first
+	#s2 will be last
 	add $s0,$zero,$zero #init $s0 -> 0
 	lui $s0,0x1000 #pointing to 0x1000000
 	lw $s1,0($s0) #$s1 = size
@@ -27,5 +30,13 @@ main:
 	subi $s2,$s0,1 #S2 (last) = s0 (size) - 1
 	j loop
 loop:
+	sub $t0,$s2,$s1 #t0 = last - first
+	addi $a1,$zero,1#sa1 will be 1
+	add $a2,$a1,$a1 #$a2 = 2
+	slt $t8,$t0,$a1 #if t0 (last-first) < 2, t8 will be 1
+	beq $t8,$a1,exit #if t8 == 1 that means (last-first)<2 aka (last-first)<=1 and we leave
 	
+	
+exit:
+	#some exit stuff
 	
