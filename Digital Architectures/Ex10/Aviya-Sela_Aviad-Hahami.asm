@@ -35,7 +35,19 @@ loop:
 	add $a2,$a1,$a1 #$a2 = 2
 	slt $t8,$t0,$a1 #if t0 (last-first) < 2, t8 will be 1
 	beq $t8,$a1,exit #if t8 == 1 that means (last-first)<2 aka (last-first)<=1 and we leave
-	
+	#We get to this part iff (last-first)>1 ===> Loop continues
+	# vars:
+	#$s3 will be mid
+	div $s3,$t0,2 #mid = (last-first)/2
+	add $s3,$s3,$s1 #mid = mid + first
+	#if A[mid] == val
+		j exit #we go to exit and break
+	#if a[mid] > val
+		add $s2,$zero,$s3#last =mid
+		j loop#continue
+	#if A[mid]<val
+		add $s1,$zero,$s2#first=mid
+		j loop#continue
 	
 exit:
 	#some exit stuff
