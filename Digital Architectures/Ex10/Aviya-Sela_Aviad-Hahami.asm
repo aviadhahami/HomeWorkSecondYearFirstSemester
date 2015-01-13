@@ -12,8 +12,10 @@
 		#continue;
 #}
 .data 0x10000000
-.data 0x10000100 
+	#TODO: define the array
 arr: 			.word 1,5,7,9,0xb,0xd,0x10,0x4000,0x50000,0x700000#ARRAY VALUES AS GIVEN IN THE ASSIGNMENT
+
+.data 0x10000100
 arrSize: 		.word 0x000a  # array in size 10
 toSearch: 	.word 0xd # the value we search
 
