@@ -2,7 +2,7 @@
 #MIPS BINARY SEARCH IMPLEMENTATION
 
 #===============================
-#    		    DATA DIRECTIVES
+#    	DATA DIRECTIVES
 #==============================
 		.data  	0x10000000
 
