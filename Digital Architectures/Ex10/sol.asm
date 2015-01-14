@@ -33,7 +33,7 @@
 
 
 arr_size:    	.word   0x0000000a 	# array size = 10
-element:	.word	0x00000007	# element to search
+element:		.word	0x00000007	# element to search
 index:		.word	0xffffffff	# index of element in the array
 strt_adrs:   	.word   0x10000100 	# start address of array
 
@@ -45,7 +45,7 @@ strt_adrs:   	.word   0x10000100 	# start address of array
 	.word	0x00000009
 	.word	0x0000000b
 	.word	0x0000000d
-    .word	0x00000010	
+   .word	0x00000010	
     .word	0x00004000	
     .word	0x00050000
 	.word 	0x00700000
