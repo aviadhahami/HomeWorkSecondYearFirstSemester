@@ -18,7 +18,7 @@ PART ONE
 	==> fail, multiple values assiged to same variable.
 6.	p1(p2(A),C,3)
 	p1(p2(3),p3(B),B)
-	==>A=3, B=C=3
+	==>A=3, C=p3(3), B=3
 7.	foo(p2(a, Y), 2, p3(X, p2(Y,3)))
 	foo(A, B, p3(p1(a), A))
 	==>fail, multiple assignments to Y.
@@ -37,3 +37,11 @@ odd(-1) :- !.
 odd(0) :- fail.
 odd(X) :- X > 0 , Y is X - 2 , odd(Y), !.
 odd(X) :- X < -1 , Y is X * -1, odd(Y), !.
+
+/*
+PART THREE
+==========
+X -> element.index
+Y ->element.value
+*/
+triangularNth(X,Y) :-
