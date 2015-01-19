@@ -49,3 +49,14 @@ triangularNth(X,Y) :-
     X < 0 ->  fail;
     is(W,X-1), is(Z,Y-X),
     triangularNth(W,Z).
+
+/*
+PART FOUR
+=========
+*/
+find_min(L,R) :-
+    L == [] ->  !;
+    [A|B]=L,
+    A < R ->  fail;
+    [A|B]=L,
+    find_min(B,R).
