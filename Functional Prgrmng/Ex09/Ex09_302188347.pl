@@ -44,4 +44,6 @@ PART THREE
 X -> element.index
 Y ->element.value
 */
-triangularNth(X,Y) :-
+triangularNth(1,1) :- !.
+triangularNth(X, Y) :- X < 0 , Y < 0, fail.
+triangularNth(X, Y) :- is(W,X-1), is(Z,Y-X), triangularNth(W,Z).
