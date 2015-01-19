@@ -13,9 +13,7 @@ main(){
 	printf("Enter string(up to %d characters) :\n", MAX_STR_LEN);
 	readString(input);
 	printf("You entered the following string (length %d):\n", strlen(input));
-	for (int i = 0; i < strlen(input); i++){
-		printf("%c",input[i]);
-	}
+	printf("%s\n", input);
 	printf("Done.\n");
 
 #ifdef DEBUG

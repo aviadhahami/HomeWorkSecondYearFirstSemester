@@ -11,6 +11,6 @@
 * ~~~~~~~~~~~~~~~~~~~~
 * - reads string from stdin and returns it
 **********************************************/
-char* readString(void);
+void readString(char*);
 
 #endif
