@@ -8,11 +8,14 @@
 #define DEBUG
 
 main(){
-	printf("Enter string(up to %d characters) :\n", MAX_STR_LEN);
+
 	char input[MAX_STR_LEN];
+	printf("Enter string(up to %d characters) :\n", MAX_STR_LEN);
 	readString(input);
 	printf("You entered the following string (length %d):\n", strlen(input));
-	printf("%s\n", input);
+	for (int i = 0; i < strlen(input); i++){
+		printf("%c",input[i]);
+	}
 	printf("Done.\n");
 
 #ifdef DEBUG
