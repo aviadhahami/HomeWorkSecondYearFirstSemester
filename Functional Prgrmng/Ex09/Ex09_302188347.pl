@@ -32,7 +32,8 @@ PART ONE
 /*
 PART TWO
 ==========
-
 */
-
-	
+odd(-1) :- !.
+odd(0) :- fail.
+odd(X) :- X > 0 , Y is X - 2 , odd(Y), !.
+odd(X) :- X < -1 , Y is X * -1, odd(Y), !.
