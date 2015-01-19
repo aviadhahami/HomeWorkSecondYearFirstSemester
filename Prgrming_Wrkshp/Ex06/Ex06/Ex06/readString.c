@@ -13,8 +13,8 @@
 * ~~~~~~~~~~~~~~~~~~~~
 * - reads string from stdin and returns it
 **********************************************/
-char*  readString() {
-	char buffer[MAX_STR_LEN];
+ readString(char* buffer) {
+	//char buffer[MAX_STR_LEN];
 	int strLen;
 
 	// fgets reads up to N characters from stream (stdin in this case)
@@ -36,6 +36,6 @@ char*  readString() {
 		buffer[strLen - 1] = '\0';
 	}
 
-	return buffer;
+	//return buffer;
 
 }
