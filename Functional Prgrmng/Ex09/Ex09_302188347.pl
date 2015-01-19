@@ -54,9 +54,29 @@ triangularNth(X,Y) :-
 PART FOUR
 =========
 */
+/*
+ *  original find_min(L,R)
+ */
 find_min(L,R) :-
+	member(R,L) ->  find_min_aux(L,R);
+    fail.
+/*
+ *  simple "is a member" func
+ */
+member(X, [Y|T]) :- X = Y; member(X, T).
+
+/*
+ *  find_min_aux(L,R) is the executor.
+ * 	logic is ->
+ *  if list empty we won
+ *	we bind vars, then ask if the car is smaller
+ * 	car smaller? -> we fail.
+ * 	non of the above ? -> we bind vars again and...recursion!
+ * 			
+ */
+find_min_aux(L,R) :-
     L == [] ->  !;
     [A|B]=L,
     A < R ->  fail;
     [A|B]=L,
-    find_min(B,R).
+    find_min_aux(B,R).

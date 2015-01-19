@@ -59,3 +59,11 @@ Prgrming_Wrkshp/Ex06/Ex06/Ex06/Debug/vc120.pdb
 Prgrming_Wrkshp/Ex06/Ex06/Ex06/Debug/vc120.idb
 Prgrming_Wrkshp/Ex06/Ex06/Ex06/Debug/main1.obj
 Prgrming_Wrkshp/Ex06/Ex06/Ex06/Debug/Ex06.tlog/unsuccessfulbuild
+*.idb
+*.obj
+*.tlog
+*.ilk
+*.pdb
+*.sdf
+*.log
+*.tlog
