@@ -1,11 +1,26 @@
-#define LIST_SIZE 10
+#include <stdio.h>
+#include <stdlib.h>
+#include "StringList.h"
 
-typedef struct StringList{
-	char** index[LIST_SIZE];
-} StringList;
+
+#ifdef STRINGLIST1
+typedef char** StringList
+#endif
+#ifndef LIST_SIZE
+#define LIST_SIZE 10
+#endif
+//2. If the list has n strings, then the first n entries of the array point to valid strings, and the others have NULL value(the figure above demonstrates a list with two strings)
+//3. A string of length m should occupy exactly m + 1 bytes in memory(including the byte reserved for the terminating ‘\0’)
+//4. If you try to insert a string to the list when it is full, then insertStringByLength() returns NULL.
+
+StringList main(){
+	StringList list = initStringList(list);
+}
+
 
 //Inits a StringList type of variable
-StringList initStringList();
+StringList initStringList(){
+};
 
 //Input: a StringList and a string
 //Logic: The function inserts the new string after the first string with same length.
