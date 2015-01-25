@@ -72,6 +72,7 @@ void printStringList(StringList list){
 		if (list[i] != NULL){
 			printf("$d. %s \n", i, list[i]);
 		}
+		i++;
 	}
 }
 
