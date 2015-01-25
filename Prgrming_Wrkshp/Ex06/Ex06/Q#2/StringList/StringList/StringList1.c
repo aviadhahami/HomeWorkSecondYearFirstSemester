@@ -15,7 +15,6 @@ StringList initStringList(){
 	while (i < LIST_SIZE){
 		list[i] = NULL;
 	}
-
 	return list;
 };
 
@@ -30,15 +29,14 @@ StringList insertStringByLength(char* string, StringList list){
 	if (!gotRoom(list)) return NULL;
 	//TODO: gotRoom
 	//main logic, if we got free spot we malloc them, else we propagate right and then malloc them.
-	for (int i=0;i < LIST_SIZE){
+	for (int i=0;i < LIST_SIZE;i++){
 		if (list[i] != NULL){
 			if (!currLength < strlen(list[i])){
 				propagateRight(list, i);
 				list[i] = (char*)malloc(currLength * sizeof(char) + 1);
 				strcpy(list[i], string);
 				return list;
-			}
-			else{
+			}else{
 				list[i] = (char*)malloc(currLength * sizeof(char) + 1);
 				strcpy(list[i], string);
 				return list;
