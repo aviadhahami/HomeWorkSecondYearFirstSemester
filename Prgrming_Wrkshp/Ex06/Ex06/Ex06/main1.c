@@ -18,7 +18,7 @@ main(){
 
 #ifdef DEBUG
 	holdExit();
-#endif // DEBUG
+#endif
 
 
 }

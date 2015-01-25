@@ -13,7 +13,7 @@
 * ~~~~~~~~~~~~~~~~~~~~
 * - reads string from stdin and returns it
 **********************************************/
- void readString(char* input) {
+void readString(char* input) {
 	//char buffer[MAX_STR_LEN];
 	int strLen;
 

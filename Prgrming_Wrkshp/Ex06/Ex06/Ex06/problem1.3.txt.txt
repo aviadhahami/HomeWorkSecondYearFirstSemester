@@ -1,0 +1,2 @@
+Error	1	error C2040: 'readString' : 'char *()' differs in levels of indirection from 'void (char *)'
+There's a difference between the header prototype and the actual decleration, thus we get compilation error.
