@@ -67,9 +67,9 @@ void printStringList(StringList list){
 	if (list == NULL) return;
 	int i = 0;
 	while (i < LIST_SIZE){
-		char out;
-		out = (!list[i] == NULL) ? ("$d. %s \n", i, list[i]) : NULL;
-		printf(out);
+		if (list[i] != NULL){
+			printf("$d. %s \n", i, list[i]);
+		}
 	}
 }
 
