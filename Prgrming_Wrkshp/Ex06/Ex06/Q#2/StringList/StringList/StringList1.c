@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "stringList.h"
 
 //2. If the list has n strings, then the first n entries of the array point to valid strings, and the others have NULL value(the figure above demonstrates a list with two strings)
@@ -44,6 +45,7 @@ StringList insertStringByLength(char* string, StringList list){
 			}
 		}
 	}
+	return 0;
 }
 
 void propagateRight(StringList list, int currIndex){
