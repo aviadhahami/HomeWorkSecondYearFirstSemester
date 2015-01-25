@@ -22,3 +22,6 @@ void freeStringList(StringList list);
 
 //Get's a list and propagates the elements to the RHS by 1
 void propagateRight(StringList, int);
+
+//Will return 1 if the last element in the array is 1
+int gotRoom(StringList);
