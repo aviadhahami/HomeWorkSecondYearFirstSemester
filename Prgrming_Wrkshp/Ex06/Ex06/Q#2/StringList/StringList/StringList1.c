@@ -39,4 +39,15 @@ StringList insertStringByLength(char* string, StringList list);
 void printStringList(StringList list);
 
 //Free's the allocated memory !IMPORTANT
-void freeStringList(StringList list);
+void freeStringList(StringList list){
+	int i = 0;
+	while (i < LIST_SIZE){
+		int dummy;
+		if (list[i] == NULL){
+			continue;
+		}
+		else{
+			free(list[i]);
+		}
+	}
+};
