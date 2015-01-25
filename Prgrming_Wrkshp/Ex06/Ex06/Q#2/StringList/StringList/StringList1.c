@@ -70,7 +70,7 @@ void printStringList(StringList list){
 	int i = 0;
 	while (i < LIST_SIZE){
 		if (list[i] != NULL){
-			printf("$d. %s \n", i, list[i]);
+			printf("%d. %s \n", i, list[i]);
 		}
 		i++;
 	}
