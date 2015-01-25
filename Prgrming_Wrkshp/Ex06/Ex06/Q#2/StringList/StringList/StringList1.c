@@ -29,7 +29,8 @@ StringList insertStringByLength(char* string, StringList list){
 	if (!gotRoom(list)) return NULL;
 	//TODO: gotRoom
 	//main logic, if we got free spot we malloc them, else we propagate right and then malloc them.
-	for (int i=0; i < LIST_SIZE; i++){
+	int i =0;
+	for (i=0; i < LIST_SIZE; i++){
 		if (list[i] != NULL){
 			if (!currLength < strlen(list[i])){
 				propagateRight(list, i);
@@ -46,7 +47,8 @@ StringList insertStringByLength(char* string, StringList list){
 }
 
 void propagateRight(StringList list, int currIndex){
-	for (int i = LIST_SIZE - 1; currIndex <= i; i--){
+	int i =0;
+	for ( i = LIST_SIZE - 1; currIndex <= i; i--){
 		if (list[i] != NULL)
 			list[i + 1] = list[i];
 	}
