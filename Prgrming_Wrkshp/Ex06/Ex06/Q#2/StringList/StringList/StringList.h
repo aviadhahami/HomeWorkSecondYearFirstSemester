@@ -4,8 +4,8 @@
 typedef char** StringList;
 #endif
 
-#define STRINGLIST1
-#define STRINGLIST2
+//#define STRINGLIST1
+//#define STRINGLIST2
 
 #ifdef STRINGLIST2
 struct Node{
