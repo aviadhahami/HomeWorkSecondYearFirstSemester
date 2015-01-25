@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include "stringList.h"
 
-
-#ifdef STRINGLIST1
-typedef char** StringList;
-#endif
 #ifndef LIST_SIZE
 #define LIST_SIZE 10
 #endif
@@ -32,12 +28,12 @@ StringList initStringList(){
 //Output : StringList post insertion, all strings are sorted by length.
 //Expections: Will throw back NULL if couldn't allocate memo
 StringList insertStringByLength(char* string, StringList list){
-	int i = 0, currLength = strlen(string);
+	int  currLength = strlen(string);
 	// we check for more room in the list, assuming NULLs are propagated right
 	if (!gotRoom(list)) return NULL;
 	//TODO: gotRoom
 	//main logic, if we got free spot we malloc them, else we propagate right and then malloc them.
-	while (i < LIST_SIZE){
+	for (int i=0;i < LIST_SIZE){
 		if (list[i] != NULL){
 			if (!currLength < strlen(list[i])){
 				propagateRight(list, i);
