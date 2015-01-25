@@ -1,8 +1,6 @@
 #define LIST_SIZE 10
 
-typedef struct StringList{
-	char** index[LIST_SIZE];
-} StringList;
+typedef char** StringList;
 
 //Inits a StringList type of variable
 StringList initStringList();

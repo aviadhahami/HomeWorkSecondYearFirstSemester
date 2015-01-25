@@ -13,13 +13,15 @@ typedef char** StringList
 //3. A string of length m should occupy exactly m + 1 bytes in memory(including the byte reserved for the terminating ‘\0’)
 //4. If you try to insert a string to the list when it is full, then insertStringByLength() returns NULL.
 
-StringList main(){
-	StringList list = initStringList(list);
-}
-
 
 //Inits a StringList type of variable
 StringList initStringList(){
+	StringList list;
+	list = (StringList)malloc(LIST_SIZE * sizeof(char*));
+	for (int i = 0; i < LIST_SIZE; i++){
+		list[i] = NULL;
+	}
+	return list;
 };
 
 //Input: a StringList and a string
