@@ -19,3 +19,6 @@ void printStringList(StringList list);
 
 //Free's the allocated memory !IMPORTANT
 void freeStringList(StringList list);
+
+//Get's a list and propagates the elements to the RHS by 1
+void propagateRight(StringList, int);

@@ -31,7 +31,41 @@ StringList initStringList(){
 //		 If non exit -> will inject it @ top of StringList.
 //Output : StringList post insertion, all strings are sorted by length.
 //Expections: Will throw back NULL if couldn't allocate memo
-StringList insertStringByLength(char* string, StringList list);
+StringList insertStringByLength(char* string, StringList list){
+	int i = 0, currLength = strlen(string);
+	// we check for more room in the list, assuming NULLs are propagated right
+	if (!gotRoom(list)) return NULL;
+	//TODO: gotRoom
+	//main logic, if we got free spot we malloc them, else we propagate right and then malloc them.
+	while (i < LIST_SIZE){
+		if (list[i] != NULL){
+			if (!currLength < strlen(list[i])){
+				propagateRight(list, i);
+				list[i] = (char*)malloc(currLength * sizeof(char) + 1);
+				strcpy(list[i], string);
+				return list;
+			}
+			else{
+				list[i] = (char*)malloc(currLength * sizeof(char) + 1);
+				strcpy(list[i], string);
+				return list;
+			}
+		}
+	}
+}
+
+void propagateRight(StringList list, int currIndex){
+	for (int i = LIST_SIZE - 1; currIndex <= i; i--){
+		if (list[i] != NULL)
+			list[i + 1] = list[i];
+	}
+}
+//this func returns true if the last item is null.
+//We depend on a heuristic saying that the last spot in the array
+//is null if we got a room 
+int gotRoom(StringList list){
+	return list[LIST_SIZE - 1] == NULL ? 1 : 0;
+}
 
 //Input: StringList
 //Output: Prints all the strings by their length (long to short),
@@ -41,9 +75,8 @@ void printStringList(StringList list){
 	int i = 0;
 	while (i < LIST_SIZE){
 		char out;
-		out = (!list[i] == NULL) ? ("$d) %s \n", i, list[i]) : NULL;
+		out = (!list[i] == NULL) ? ("$d. %s \n", i, list[i]) : NULL;
 		printf(out);
-
 	}
 }
 
@@ -51,11 +84,7 @@ void printStringList(StringList list){
 void freeStringList(StringList list){
 	int i = 0;
 	while (i < LIST_SIZE){
-		int dummy;
-		if (list[i] == NULL){
-			continue;
-		}
-		else{
+		if (list[i] != NULL){
 			free(list[i]);
 		}
 	}
