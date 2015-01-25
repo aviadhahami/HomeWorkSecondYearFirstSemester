@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "stringList.h"
 
-#ifndef LIST_SIZE
-#define LIST_SIZE 10
-#endif
 //2. If the list has n strings, then the first n entries of the array point to valid strings, and the others have NULL value(the figure above demonstrates a list with two strings)
 //3. A string of length m should occupy exactly m + 1 bytes in memory(including the byte reserved for the terminating ‘\0’)
 //4. If you try to insert a string to the list when it is full, then insertStringByLength() returns NULL.
