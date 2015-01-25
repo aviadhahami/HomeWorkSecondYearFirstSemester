@@ -18,9 +18,11 @@ typedef char** StringList
 StringList initStringList(){
 	StringList list;
 	list = (StringList)malloc(LIST_SIZE * sizeof(char*));
-	for (int i = 0; i < LIST_SIZE; i++){
+	int i = 0;
+	while (i < LIST_SIZE){
 		list[i] = NULL;
 	}
+
 	return list;
 };
 
