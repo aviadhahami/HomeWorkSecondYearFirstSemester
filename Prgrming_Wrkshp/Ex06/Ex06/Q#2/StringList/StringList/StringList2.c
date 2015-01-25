@@ -52,7 +52,8 @@ StringList insertStringByLength(char* string, StringList list){
 
 void printStringList(StringList list){
 	int counter = 1;
-	for (StringList currElem = list; currElem != NULL; currElem->next = list->next) {
+	StringList currElem;
+	for (currElem = list; currElem != NULL; currElem->next = list->next) {
 		printf("%d. %s\n", counter, currElem->data);
 		counter++;
 	}
