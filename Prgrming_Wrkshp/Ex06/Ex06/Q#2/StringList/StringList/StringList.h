@@ -1,6 +1,20 @@
 #define LIST_SIZE 10
 
+#ifdef STRINGLIST1
 typedef char** StringList;
+#endif
+
+#define STRINGLIST1
+#define STRINGLIST2
+
+#ifdef STRINGLIST2
+typedef struct Node Node;
+struct Node{
+	char* data;
+	struct Node* next;
+};
+typedef struct Node* StringList;
+#endif
 
 //Inits a StringList type of variable
 StringList initStringList();

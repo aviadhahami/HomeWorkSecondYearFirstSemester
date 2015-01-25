@@ -4,7 +4,7 @@
 
 
 #ifdef STRINGLIST1
-typedef char** StringList
+typedef char** StringList;
 #endif
 #ifndef LIST_SIZE
 #define LIST_SIZE 10
