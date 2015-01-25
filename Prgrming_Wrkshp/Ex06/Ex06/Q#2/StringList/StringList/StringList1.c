@@ -36,7 +36,16 @@ StringList insertStringByLength(char* string, StringList list);
 //Input: StringList
 //Output: Prints all the strings by their length (long to short),
 //		  prefixed by their index number
-void printStringList(StringList list);
+void printStringList(StringList list){
+	if (list == NULL) return;
+	int i = 0;
+	while (i < LIST_SIZE){
+		char out;
+		out = (!list[i] == NULL) ? ("$d) %s \n", i, list[i]) : NULL;
+		printf(out);
+
+	}
+}
 
 //Free's the allocated memory !IMPORTANT
 void freeStringList(StringList list){
