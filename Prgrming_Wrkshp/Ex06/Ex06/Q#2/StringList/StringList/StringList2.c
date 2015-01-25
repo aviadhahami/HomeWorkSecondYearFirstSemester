@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "StringList.h"
+#include "stringList.h"
 
 StringList initStringList() {
 	return NULL;

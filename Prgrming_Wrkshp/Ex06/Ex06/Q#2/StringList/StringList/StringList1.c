@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "StringList.h"
+#include "stringList.h"
 
 
 #ifdef STRINGLIST1

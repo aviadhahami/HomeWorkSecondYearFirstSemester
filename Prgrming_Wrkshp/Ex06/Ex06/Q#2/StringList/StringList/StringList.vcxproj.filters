@@ -26,5 +26,8 @@
     <ClCompile Include="StringList1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StringList2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
