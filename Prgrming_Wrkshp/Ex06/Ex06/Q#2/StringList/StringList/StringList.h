@@ -8,11 +8,11 @@ typedef char** StringList;
 #define STRINGLIST2
 
 #ifdef STRINGLIST2
-typedef struct Node Node;
 struct Node{
 	char* data;
 	struct Node* next;
 };
+typedef struct Node Node;
 typedef struct Node* StringList;
 #endif
 
