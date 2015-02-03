@@ -1,0 +1,186 @@
+
+
+/***************************************************************************
+ * function newFloatToDouble
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~
+ * Converts a NewFloat to double
+ * - conversion preserves the exact value of the number
+ * - 0 mapped to 0 and INF mapped to inf
+ *
+ * params:
+ * + nfloat (NewFloat) - NewFloat to convert to double
+ *
+ * return:
+ * + a double number identically representing the input NewFloat
+ **********************************/
+double newFloatToDouble(NewFloat nfloat) {
+
+   unsigned long long int d_mantissa, d_exponent, d_as_long_long, y, t, u;
+   unsigned long long int infy = 0x7ff0000000000000;
+   if(nfloat == 0.0) return (double)0;
+   if(nfloat == INF) return *(double*)&infy;
+
+   // mantissa of NewFloat added the ammount of heading zeros
+
+   d_mantissa = ( (unsigned long long int)MASKEXP(nfloat) << (MANBITS_DOUBLE - MANBITS));
+
+   // exponent of NewFloat is exponent of Double, but need to re-set offset
+   d_exponent = (( unsigned long long int)GETEXP(nfloat) - EXPOFFSET + EXPOFFSET_DOUBLE) << MANBITS_DOUBLE ;
+
+   d_as_long_long = d_exponent + d_mantissa;
+
+#ifdef DEBUG
+   printf("  double mantissa: %llx\n",d_mantissa);
+   printf("  double exponent: %x\n",(unsigned)d_exponent);
+   printf("  double all: %llx\n",d_as_long_long);
+#endif
+
+   return * ((double*)(&d_as_long_long));
+
+}
+/** end of newFloatToDouble() **/
+
+NewFloat newFloatSum(NewFloat x, NewFloat y) {
+   unsigned long long int man_x,man_y,exp_x,exp_y,bigger_exp,bigger_man,smaller_exp,smaller_man,sum_man, MAX_man, MAX_exp;
+
+
+   if((newFloatToDouble(x) == 0.0)){
+      return y;
+   }
+   else if((newFloatToDouble(y) == 0.0)){
+      return x;
+   }
+
+
+   man_x = MASKEXP(x);
+   exp_x = GETEXP(x);
+   man_y = MASKEXP(y);
+   exp_y = GETEXP(y);
+
+   bigger_exp = exp_x >= exp_y ? exp_x : exp_y;
+   bigger_man = exp_x >= exp_y ? man_x : man_y;
+   smaller_exp = exp_x < exp_y ? exp_x : exp_y;
+   smaller_man = exp_x < exp_y ? man_x : man_y;
+
+   MAX_man = (~(~0 << MANBITS ));
+   MAX_exp =(~(~0 << EXPBITS ));
+
+   sum_man = bigger_man + (1 << ( (unsigned long long int)(smaller_exp - bigger_exp + MANBITS))) +  ((unsigned long long int)smaller_man >> (bigger_exp - smaller_exp));
+
+
+   while(sum_man > MAX_man) {
+      bigger_exp++;
+      sum_man = ((unsigned long long int)(sum_man)>>1) - ((unsigned long long int)1<<(MANBITS-1));
+
+   }
+
+
+   if(bigger_exp >= MAX_exp) return (NewFloat)INF;
+
+   return (bigger_exp << MANBITS) + sum_man;
+
+
+}
+
+
+NewFloat newFloatProduct(NewFloat x, NewFloat y) {
+   unsigned long long int man_x,man_y,exp_x,exp_y,prod_man, MAX_man, MAX_exp,prod_exp;
+
+   if((newFloatToDouble(x) == 0.0) || (newFloatToDouble(y) == 0)){
+      return doubleToNewFloat(0);
+   }
+   man_x = MASKEXP(x);
+   exp_x = GETEXP(x);
+   man_y = MASKEXP(y);
+   exp_y = GETEXP(y);
+
+   MAX_man = (~(~0 << MANBITS ));
+   MAX_exp =(~(~0 << EXPBITS ));
+
+   prod_man = (unsigned long long )(man_x + man_y) + ((unsigned long long)(man_x * man_y) >> MANBITS);
+
+   prod_exp = exp_x + exp_y - EXPOFFSET;
+
+   while(prod_man > MAX_man) {
+      prod_exp++;
+      prod_man = ((unsigned long long int)(prod_man)>>1) - ((unsigned long long int)1<<(MANBITS-1));
+
+   }
+
+   if(prod_exp >= MAX_exp) return (NewFloat)INF;
+
+   return (prod_exp << MANBITS) + prod_man;
+
+}
+
+
+NewFloat mult2(NewFloat nfloat) {
+   double d;
+   NewFloat n;
+   d = 2.0;
+   n = doubleToNewFloat(d);
+   return newFloatProduct(n,nfloat);
+}
+
+
+NewFloat add2(NewFloat nfloat){
+   double d;
+   NewFloat n;
+   d = 2.0;
+   n = doubleToNewFloat(d);
+   return newFloatSum(n,nfloat);
+}
+
+int main(int argc, char *argv[]) {
+   double num1, num2;
+   char *symb;
+
+   if (argc != 4){
+      fprintf(stderr, "Usage: newFloatTest num1 <op> num2\n");
+      return 1;
+   }
+   else{
+      num1 = atof (argv[1]);
+      num2 = atof (argv[3]);
+      if(((num1 == 0) && (strcmp(argv[1],"0") != 0)) || ((num2 == 0) && (strcmp(argv[3],"0") != 0))){
+         fprintf(stderr, "Error: Both input must be of double type\n");
+         return 1;
+      }
+      symb = argv[2];
+      if((strcmp(symb, "+") != 0) && (strcmp(symb, "x") != 0)){
+         fprintf(stderr, "Error: Operator is not '+' or 'x'\n");
+         return 1;
+      }
+      else {
+         NewFloat newNum1, newNum2, answer;
+         newNum1 = doubleToNewFloat(num1);
+         newNum2 = doubleToNewFloat(num2);
+         if (strcmp(symb, "+") != 1){
+            //doing sum
+            if(num2 == 2.0){
+               printf("used add2. its good\n");
+               answer = add2(newNum1);
+            }
+            else{
+               answer = newFloatSum(newNum1, newNum2);
+            }
+         }
+         else{
+            //doing mult
+            if(num2 == 2.0){
+               printf("used mult2. its good\n");
+               answer = mult2(newNum1);
+            }
+            else{
+               answer = newFloatProduct(newNum1, newNum2);
+            }
+         }
+         printf("%.7g %s %.7g = %.7g\n", num1, symb, num2, newFloatToDouble(answer));
+      }
+   }
+   return 0;
+}
+
+/*******************************************
+ *        E N D   O F   F I L E             *
+ *******************************************/
